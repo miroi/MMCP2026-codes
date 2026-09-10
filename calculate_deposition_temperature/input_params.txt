@@ -1,0 +1,47 @@
+# Eichler-Zvara compact-equation input
+# Hg/Au(111) thermochemistry extracted from the uploaded ASEvibr-thermo logfile.
+#
+# DFT thermochemistry: T = 298.15 K, p = 1 bar.
+# Hg-dominated modes: 19.312 and 19.5168 cm^-1.
+#
+# The compact E-Z equation uses one characteristic frequency nu_B.
+# nu_B below is the geometric mean of the two Hg-dominated modes:
+# sqrt(19.312 * 19.5168) = 19.414130 cm^-1
+# nu_B = 5.8202097368e11 s^-1
+#
+# Adsorption sign convention:
+#   delta_H_ads_J_mol < 0 for exothermic adsorption
+#   delta_S_ads_J_mol_K < 0 for adsorption
+#
+# M is entered in g/mol for the compact project equation.
+# Q_sccm is standard volumetric flow.
+
+M_adsorbate_g_mol = 200.59
+nu_phonon_s_inv = 5.8202097368e11
+
+# Standard surface area: 1 cm^2
+s0_m2 = 1.0e-4
+
+# Carrier-gas flow: 0.002 sccm
+#Q_sccm = 0.001
+#Q_sccm = 0.005
+Q_sccm = 0.010
+
+temperature_gradient_K_m = 50.0
+column_diameter_m = 0.020
+
+# DFT/phonon thermodynamics at 298.15 K, p = 1 bar
+delta_H_ads_J_mol = -47076.5871754851
+delta_S_ads_J_mol_K = -104.7019236234
+
+R_J_mol_K = 8.31446261815324
+
+T_min_K = 50.0
+T_max_K = 1000.0
+
+# Hg-dominated frequencies retained for traceability:
+hg_frequency_1_cm1 = 19.312
+hg_frequency_2_cm1 = 19.5168
+
+# Comparison value from the same DFT/phonon calculation:
+T_cross_K = 450.921106

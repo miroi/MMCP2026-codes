@@ -1,0 +1,227 @@
+/home/milias/miniconda3/envs/molmatmodel/lib/python3.13/site-packages/e3nn/o3/_wigner.py:10: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  _Jd, _W3j_flat, _W3j_indices = torch.load(os.path.join(os.path.dirname(__file__), 'constants.pt'))
+
+======================================================================
+VERSION INFORMATION
+======================================================================
+Python : 3.13.15
+ASE    : 3.29.0
+MACE   : 0.3.16
+Torch  : 2.5.1.post208
+CUDA available: True
+GPU: NVIDIA GeForce GTX 1650
+======================================================================
+Using device: cuda
+MACE model: /home/milias/.cache/mace/checkpoints/mace-mp-0b3-medium.model
+/home/milias/miniconda3/envs/molmatmodel/lib/python3.13/site-packages/mace/calculators/mace.py:226: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  torch.load(f=model_path, map_location=device)
+
+======================================================================
+Hg ON Au(111) MODULAR WORKFLOW
+======================================================================
+
+Au surface created
+
+SURFACE DETAILS
+------------------------------------------------------------
+Total atoms: 96
+Au atoms: 96
+Au layers: 6
+Frozen layers: 2
+Layer 1: z=18.000000 Å  16 Au  FROZEN
+Layer 2: z=20.355589 Å  16 Au  FROZEN
+Layer 3: z=22.711178 Å  16 Au  FREE
+Layer 4: z=25.066767 Å  16 Au  FREE
+Layer 5: z=27.422356 Å  16 Au  FREE
+Layer 6: z=29.777945 Å  16 Au  FREE
+
+Optimization finished
+Energy: -304.8265897028 eV
+Max force on mobile atoms: 0.006507 eV/Å
+Converged: YES
+
+Hg/Au system created
+
+SURFACE DETAILS
+------------------------------------------------------------
+Total atoms: 97
+Au atoms: 96
+Au layers: 6
+Frozen layers: 2
+Layer 1: z=18.000000 Å  16 Au  FROZEN
+Layer 2: z=20.355589 Å  16 Au  FROZEN
+Layer 3: z=22.877598 Å  16 Au  FREE
+Layer 4: z=25.382776 Å  16 Au  FREE
+Layer 5: z=27.909841 Å  16 Au  FREE
+Layer 6: z=30.464012 Å  16 Au  FREE
+
+Hg–Au surface distance: 3.000000 Å
+Hg–Au surface distance BEFORE optimization: 3.000000 Å
+
+Optimization finished
+Energy: -305.4524593272 eV
+Max force on mobile atoms: 0.004206 eV/Å
+Converged: YES
+Hg–Au surface distance AFTER optimization: 2.468319 Å
+Hg–Au surface distance change: -0.531681 Å
+
+======================================================================
+ENERGY SUMMARY
+======================================================================
+E(Hg/Au)  : -305.4524593272 eV
+E(Au)     : -304.8265897028 eV
+E(Hg)     : -0.1245467400 eV
+ΔE_ads    : -0.5013228844 eV
+          : -48.3703 kJ/mol
+======================================================================
+
+PHONON CALCULATION
+----------------------------------------------------------------------
+Requested vibrational backend: ase
+Original atoms: 96
+Frozen atoms: 96
+Mobile atoms: 0
+Vibrational frozen Au atoms: 96
+Vibrationally mobile Au atoms: 0
+Vibrationally mobile Hg atoms: 0
+Vibrational frozen Au layers: 6 of 6
+Mobile composition: none
+Force calculations include frozen atoms: YES
+Phonon coordinate space: mobile atoms only
+Hg is included in the phonon system: NO
+Phonon configuration:
+  phonon_displacement     : 0.005000 Å
+  frequency_cutoff_cm    : 1.000000 cm^-1
+  n_frozen_layers_vibrations: 6
+  hg_projection_threshold: 0.200
+  symmetrize              : True
+  fail_on_imaginary       : True
+All atoms are frozen for vibrations; no vibrational modes are present.
+
+PHONON CALCULATION
+----------------------------------------------------------------------
+Requested vibrational backend: ase
+Original atoms: 97
+Frozen atoms: 96
+Mobile atoms: 1
+Vibrational frozen Au atoms: 96
+Vibrationally mobile Au atoms: 0
+Vibrationally mobile Hg atoms: 1
+Vibrational frozen Au layers: 6 of 6
+Mobile composition: Hg:1
+Force calculations include frozen atoms: YES
+Phonon coordinate space: mobile atoms only
+Hg is included in the phonon system: YES
+Phonon configuration:
+  phonon_displacement     : 0.005000 Å
+  frequency_cutoff_cm    : 1.000000 cm^-1
+  n_frozen_layers_vibrations: 6
+  hg_projection_threshold: 0.200
+  symmetrize              : True
+  fail_on_imaginary       : True
+Vibrational backend: ASE Vibrations
+Raw Gamma modes: 3
+Positive modes kept (nu >= 1 cm^-1): 3
+No significant imaginary modes.
+Positive frequency range: 22.213–58.330 cm^-1
+Lowest positive modes (cm^-1): [22.2127 22.3355 58.3297]
+Hg atom index in mobile phonon coordinates: [0]
+Hg-dominated modes (projection >= 0.200): 3
+Hg-dominated frequencies (cm^-1): [22.213 22.335 58.33 ]
+Thermodynamics backend: ASE HarmonicThermo + IdealGasThermo
+
+======================================================================================
+Hg@Au vibrational thermodynamics (ASE HarmonicThermo)
+======================================================================================
+   Temp(K)           ZPE(eV)             F(eV)             U(eV)           S(eV/K)
+--------------------------------------------------------------------------------------
+     50.00      0.0063776208     -0.0009602629      0.0141860422  3.0292610106e-04
+    100.00      0.0063776208     -0.0207974740      0.0264991836  4.7296657599e-04
+    200.00      0.0063776208     -0.0779205112      0.0520298533  6.4975182263e-04
+    298.15      0.0063776208     -0.1470692256      0.0772965905  7.5252663484e-04
+    400.00      0.0063776208     -0.2277625809      0.1035711884  8.2833442319e-04
+    500.00      0.0063776208     -0.3135834809      0.1293905623  8.8594808650e-04
+    600.00      0.0063776208     -0.4046043746      0.1552207981  9.3304195450e-04
+======================================================================================
+
+======================================================================
+ADSORPTION THERMODYNAMICS
+======================================================================
+T = 298.15 K
+p = 0.001 bar
+ΔE_ads          = -0.50132288 eV
+ΔZPE            = 0.00637762 eV
+ΔU_vib          = 0.07091897 eV
+H_gas thermal   = 0.06423143 eV
+ΔH_ads          = -0.48825772 eV
+S_gas           = 2.40871171e-03 eV/K
+ΔS_vib          = 7.52526635e-04 eV/K
+ΔS_ads          = -1.65618508e-03 eV/K
+ΔF_vib          = -0.14706923 eV
+μ_gas thermal   = -0.65392597 eV
+ΔG_ads          = 0.00553386 eV
+======================================================================
+
+======================================================================
+THERMODYNAMICS TEMPERATURE SCAN
+----------------------------------------------------------------------
+       T (K)       ΔH_ads (eV)       ΔS_ads (eV/K)       ΔG_ads (eV)
+----------------------------------------------------------------------
+       50.00       -0.49790851     -1.72111365e-03       -0.41185282
+      100.00       -0.49636703     -1.70040013e-03       -0.32632701
+      200.00       -0.49237968     -1.67294184e-03       -0.15779132
+      298.15       -0.48825772     -1.65618508e-03        0.00553386
+      400.00       -0.48392500     -1.64368619e-03        0.17354948
+      500.00       -0.47964895     -1.63414507e-03        0.33742358
+      600.00       -0.47536204     -1.62632933e-03        0.50043556
+----------------------------------------------------------------------
+Scan temperatures: 50.00, 100.00, 200.00, 298.15, 400.00, 500.00, 600.00 K
+Scan output: hg_au111_thermodynamics_scan.csv
+======================================================================
+
+======================================================================
+ΔG_ads = 0 TEMPERATURE
+======================================================================
+T_cross        = 294.809164 K
+ΔG_ads(T_cross)= 2.160306e-08 eV
+Method          = bisection
+Final bracket   = [294.80911694, 294.80921054] K
+Iterations      = 21
+======================================================================
+
+Workflow completed.
+
+======================================================================
+FINAL RESULTS
+======================================================================
+E_Au                    : -304.8265897028 eV
+E_HgAu                  : -305.4524593272 eV
+E_Hg                    : -0.1245467400 eV
+E_ads                   : -0.5013228844 eV
+ZPE_ads                 :  0.0063776208 eV
+delta_U_vib_thermal     :  0.0709189697 eV
+delta_U_vib_total       :  0.0772965905 eV
+H_gas_thermal           :  0.0642314260 eV
+H_ads                   : -0.4882577198 eV
+S_gas                   :  0.0024087117 eV/K
+delta_S_vib             :  0.0007525266 eV/K
+S_ads                   : -0.0016561851 eV/K
+delta_F_vib             : -0.1470692256 eV
+mu_gas_thermal          : -0.6539259704 eV
+G_ads                   :  0.0055338604 eV
+Hg_surface_distance_initial_A:  3.0000000000 Å
+Hg_surface_distance_final_A:  2.4683186463 Å
+Hg_surface_distance_change_A: -0.5316813537 Å
+Au_n_mobile             :  0 atoms
+HgAu_n_mobile           :  1 atoms
+
+----------------------------------------------------------------------
+TEMPERATURE WHERE ΔG_ads = 0
+----------------------------------------------------------------------
+T_cross             : 294.809164 K
+ΔG_ads(T_cross)     : 2.160306e-08 eV
+Root method         : bisection
+Final bracket       : [294.80911694, 294.80921054] K
+======================================================================
+
+Run finished successfully.

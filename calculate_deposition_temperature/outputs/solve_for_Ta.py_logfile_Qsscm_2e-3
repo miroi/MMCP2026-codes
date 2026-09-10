@@ -1,0 +1,39 @@
+(mace_env) miroi@MIRO:~/work/projects/mmcp2026-codes/surfaces/gold/Hg_on_gold111/thermal_corrections/calculate_deposition_temperature/.python solve_for_Ta.py
+========================================================================
+EICHLER–ZVARA COMPACT DEPOSITION-TEMPERATURE CALCULATION
+========================================================================
+Input file:                 input_params.txt
+
+Thermodynamic parameters
+  ΔH_ads                    -47.076587 kJ/mol
+  ΔS_ads                    -104.701924 J/(mol K)
+  ΔH_des                    47.076587 kJ/mol
+  ΔS_des                    104.701924 J/(mol K)
+  R                         8.314462618 J/(mol K)
+
+Experimental/model parameters
+  M                         200.590000 g/mol
+  nu_B                      5.820210e+11 s^-1
+  s0                        1.000000e-04 m^2
+  Q                         0.002000 sccm
+  Q                         3.333333333e-11 m^3/s
+  g                         50.000000 K/m
+  d                         0.020000 m
+  column area s             3.141592654e-04 m^2
+
+  compact prefactor         1.096180534e+04
+
+Solved deposition Ta        444.043288 K
+                            170.893288 °C
+Equation residual           1.126e-12
+
+Constant-H,S ΔG=0 T        449.624855 K
+                            176.474855 °C
+
+Mobile-adsorption entropy diagnostic
+  ΔS_mobile(Ta)             -149.604914 J/(mol K)
+
+Flow conversion check
+  0.002000 sccm = 3.333333333333e-11 m^3/s
+  The old 2e-9 m^3/s value corresponds to 0.12 sccm.
+========================================================================
