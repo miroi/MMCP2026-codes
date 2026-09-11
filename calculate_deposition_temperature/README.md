@@ -1,349 +1,751 @@
-# Eichler–Zvara Deposition-Temperature Calculation
+# Hg/Au(111) Deposition-Temperature Calculation
 
-## Overview
+## Purpose
 
-This package contains a corrected version of the supplied
-`solve_for_Ta.py` and a corrected `input_params.txt`.
+This directory contains a compact numerical implementation of the
+Eichler–Zvara thermochromatographic deposition-temperature relation for the
+Hg/Au(111) system.
 
-Two concrete errors in the original files are corrected:
+The present `solve_for_Ta.py` program takes a set of thermodynamic and
+thermochromatographic parameters, converts the carrier-gas flow from sccm to
+SI units, evaluates the compact Eichler–Zvara equation as a scalar residual,
+and locates the first root in a prescribed temperature interval using a
+bracketed Brent solver.
 
-- the conversion of sccm to m³/s was wrong by a factor of 60;
-- the molar-mass convention in the compact equation was implicit, so the
-  input is now explicit as g mol⁻¹.
+The numerical results documented below are taken directly from:
 
-The code retains the compact deposition-temperature equation used by the
-project. It does **not** claim that this compact relation is the complete
-Eichler–Zvara thermochromatographic transport equation.
+- `solve_for_Ta.py`;
+- `input_params.txt`; and
+- the three supplied solver output logs for `Q = 0.002`, `0.005`, and
+  `0.010 sccm`.
 
-## Primary reference
+No numerical values in this README are taken from an older version of the
+README.
 
-B. Eichler and I. Zvara, “Evaluation of the Enthalpy of Adsorption from
-Thermochromatographical Data”, Radiochimica Acta 30(4), 233–238 (1982),
-DOI 10.1524/ract.1982.30.4.233.
+---
 
-The paper describes determination of adsorption thermodynamic quantities from
-thermochromatographic deposition temperatures and flow-rate dependence, and
-also gives a model-based route for estimating adsorption entropy.
+## 1. Scope and model definition
 
-The later *Handbook of Nuclear Chemistry*, chapter “Radiochemical Separations
-by Thermochromatography”, reproduces the Eichler–Zvara transport formalism
-and the mobile-adsorption entropy model.
+The source code implements the following compact deposition-temperature
+relation:
 
-## Full thermochromatographic model
-
-The handbook gives the general Eichler–Zvara transport relation as its
-Eq. 53.2. In schematic form it contains
-
-- a gas-phase transport contribution;
-- a surface-residence contribution;
-- the carrier-gas velocity under standard conditions;
-- the temperature gradient;
-- column geometry;
-- a standard-state V/A ratio;
-- ΔH°_ads and ΔS°_ads;
-- the starting temperature T_s;
-- the deposition temperature T_a;
-- and an integral over the temperature interval.
-
-Thus deposition temperature is an operating-condition-dependent quantity,
-not simply the temperature at which ΔG_ads becomes zero.
-
-The full equation requires experimental quantities that are not present in
-the supplied `input_params.txt` (notably the starting temperature and
-transport/exposure information). Therefore the present solver deliberately
-implements the compact algebraic relation that was already used by the
-project rather than inventing missing inputs.
-
-## Compact equation implemented
-
-The solver uses
-
-# ΔH_des/(R T_a)
 ```math
-\Delta S_{\mathrm{des}}/R
-  +
-\ln\left[
-    s0 \nu_B \sqrt{2\pi M} Q g
-    /
-    (s T_a^(3/2))
-\right]
+\frac{\Delta H_{\mathrm{des}}}{R T_a}
+=
+\frac{\Delta S_{\mathrm{des}}}{R}
++
+\ln\!\left[
+\frac{s_0\nu_B\sqrt{2\pi M}\,Q\,g}
+{s\,T_a^{3/2}}
+\right].
 ```
 
 <p align="right">(1)</p>
-with:
 
-`ΔH_des`
-```text
-positive desorption enthalpy, J mol⁻¹.
-```
-`ΔS_des`
-```text
-positive desorption entropy, J mol⁻¹ K⁻¹.
-```
-`R`
-```text
-gas constant, J mol⁻¹ K⁻¹.
-```
-`T_a`
-```text
-deposition temperature, K.
-```
-`s0`
-```text
-standard surface area.
-```
-`ν_B`
-```text
-characteristic adsorbent frequency, s⁻¹.
-```
-`M`
-```text
-molar mass used by this compact project equation, explicitly supplied
-here in g mol⁻¹.
-```
-`Q`
-```text
-volumetric carrier-gas flow, m³ s⁻¹.
-```
-`g`
-```text
-temperature gradient, K m⁻¹.
-```
-`s`
-```text
-column cross-sectional area, m².
-```
-The solver uses a bracketed Brent root finder instead of `fsolve`. This
-makes the solution independent of an arbitrary initial guess and provides
-an explicit failure if no root exists in the requested temperature interval.
+Here:
 
-## Mass convention
+| Symbol | Meaning | Value/unit convention in the implementation |
+|---|---|---|
+| \(T_a\) | deposition temperature | K |
+| \(\Delta H_{\mathrm{des}}\) | molar desorption enthalpy | J mol\(^{-1}\) |
+| \(\Delta S_{\mathrm{des}}\) | molar desorption entropy | J mol\(^{-1}\) K\(^{-1}\) |
+| \(R\) | gas constant | J mol\(^{-1}\) K\(^{-1}\) |
+| \(s_0\) | standard surface area | m² |
+| \(\nu_B\) | characteristic frequency | s\(^{-1}\) |
+| \(M\) | molar mass | **entered numerically in g mol\(^{-1}\)** in Eq. (1), as required by the project implementation |
+| \(Q\) | carrier-gas volumetric flow | m³ s\(^{-1}\) after conversion |
+| \(g\) | temperature gradient | K m\(^{-1}\) |
+| \(s\) | column cross-sectional area | m² |
 
-The original input stated
+### Important unit convention for \(M\)
 
-```text
-M_Hg = 0.20059  # kg/mol
-```
-and inserted that value directly into `sqrt(2πM)`.
+The compact equation in the source code explicitly uses the numerical molar
+mass in **g mol\(^{-1}\)**. Thus the value
 
-The corrected input instead states
+\[
+M=200.59\ {\rm g\,mol^{-1}}
+\]
 
-```text
-M_adsorbate_g_mol = 200.59
-```
-and the code documents that this is the convention used by the compact
-equation.
+is inserted into the square-root factor as `200.59`, not as `0.20059`.
 
-This should not be confused with the single-particle mass in the
-statistical-mechanical mobile-adsorption model. For that model,
+This is a convention of the implemented compact equation. Converting \(M\) to
+kg mol\(^{-1}\) inside Eq. (1) without simultaneously re-deriving the
+prefactor would change the numerical result.
 
-```math
-m = M / N_{\mathrm A}
-```
+---
+
+## 2. Thermodynamic sign convention
+
+The input file defines adsorption quantities with the convention
+
+\[
+\Delta H_{\mathrm{ads}}<0
+\]
+
+for exothermic adsorption and
+
+\[
+\Delta S_{\mathrm{ads}}<0
+\]
+
+for the adsorption process.
+
+The solver converts these quantities to desorption quantities by
+
+\[
+\Delta H_{\mathrm{des}}=-\Delta H_{\mathrm{ads}},
+\qquad
+\Delta S_{\mathrm{des}}=-\Delta S_{\mathrm{ads}}.
+\]
 
 <p align="right">(2)</p>
-after conversion of M from g mol⁻¹ to kg mol⁻¹.
 
-## Mobile-adsorption entropy
+For the present Hg/Au(111) input:
 
-The handbook gives the mobile-adsorption standard entropy for the conventional
-V/A = 1 cm standard state as
+\[
+\Delta H_{\mathrm{ads}}
+=
+-47.0765871755\ {\rm kJ\,mol^{-1}},
+\]
 
-# ΔS_a°
-```math
-R \ln\left[
-    (1/(1 cm))
-    (1/\nu_B)
-    \sqrt{\frac{k_{\mathrm B}T_a}{2\pi m}}
-]
-+ R/2.
-```
+\[
+\Delta S_{\mathrm{ads}}
+=
+-104.7019236234\ {\rm J\,mol^{-1}\,K^{-1}},
+\]
+
+and therefore
+
+\[
+\Delta H_{\mathrm{des}}
+=
++47.0765871755\ {\rm kJ\,mol^{-1}},
+\]
+
+\[
+\Delta S_{\mathrm{des}}
+=
++104.7019236234\ {\rm J\,mol^{-1}\,K^{-1}}.
+\]
 
 <p align="right">(3)</p>
-Here `m` is the mass of one adsorbate particle, not the molar mass.
 
-The corrected program evaluates this expression only as a diagnostic. It does
-not silently replace the supplied DFT/phonon entropy with this model entropy.
+The thermodynamic quantities are those specified in `input_params.txt` as
+Hg/Au(111) thermochemistry evaluated at 298.15 K and 1 bar.
 
-For the characteristic substrate frequency, the handbook quotes
-ν_B = 5 × 10^12 s⁻¹ for quartz. The project uses the same numerical
-frequency as its model input.
+---
 
-## Flow-rate correction
+## 3. Flow conversion
 
-The original file claimed
+The source code defines
 
-```text
-0.002 sccm = 2e-9 m^3/s.
-```
-This is incorrect.
-
-By definition,
-
-```text
-1 sccm = 1 cm^3/min
-       = 1e-6 m^3 / 60 s
-       = 1.6666666667e-8 m^3/s.
-```
-Therefore,
-
-```text
-0.002 sccm = 3.3333333333e-11 m^3/s.
-```
-Conversely,
-
-```text
-2e-9 m^3/s = 0.12 sccm.
-```
-The original calculation therefore used a flow 60 times larger than the
-stated 0.002-sccm experiment.
-
-The old output of about 291.3 K is reproducible with the numerical value
-`Q = 2e-9 m^3/s`, but that value corresponds to 0.12 sccm.
-
-The corrected input uses
-
-```text
-Q_sccm = 0.002
-```
-and the program performs the conversion internally.
-
-## Corrected input
-
-The corrected parameters are:
-
-```text
-M_adsorbate_g_mol = 200.59
-nu_phonon_s_inv = 5.0e12
-s0_m2 = 1.0e-4
-Q_sccm = 0.002
-temperature_gradient_K_m = 50.0
-column_diameter_m = 0.020
-delta_H_ads_J_mol = -44100.0
-delta_S_ads_J_mol_K = -121.6
-R_J_mol_K = 8.31446261815324
-```
-The column area is calculated as
-
-```math
-s = \pi(d/2)^2
-```
+\[
+1\ {\rm sccm}
+=
+1\ {\rm cm^3\,min^{-1}}
+=
+\frac{10^{-6}}{60}\ {\rm m^3\,s^{-1}}.
+\]
 
 <p align="right">(4)</p>
-giving
 
-```text
-s = 3.1415926536e-4 m²
-```
-for a 20-mm column.
+Therefore,
 
-## Corrected result
-
-With the compact equation and the corrected 0.002-sccm flow, the solver
-gives approximately
-
-```math
-Q = 3.333333333e-11 m³/s
-T_a ≈ 387.6 K
-T_a ≈ 114.5 °C.
-```
+\[
+Q_{\mathrm{SI}}
+=
+Q_{\mathrm{sccm}}\frac{10^{-6}}{60}.
+\]
 
 <p align="right">(5)</p>
-This is intentionally different from the original 291.3-K result.
 
-The 291.3-K result corresponds to the old numerical flow
-`2e-9 m³/s = 0.12 sccm`.
+The three supplied calculations use:
 
-## Thermodynamic ΔG=0 reference
+| \(Q\) (sccm) | \(Q\) (m³ s\(^{-1}\)) |
+|---:|---:|
+| 0.002 | \(3.333333333\times10^{-11}\) |
+| 0.005 | \(8.333333333\times10^{-11}\) |
+| 0.010 | \(1.666666667\times10^{-10}\) |
 
-The program separately reports
+The source code also documents an historical conversion error: `2e-9 m³/s`
+corresponds to **0.12 sccm**, not 0.002 sccm. The corrected conversion in
+Eq. (5) is used for all results reported here.
 
-```math
-T_{\mathrm{eq}} = \Delta H_{\mathrm{ads}} / \Delta S_{\mathrm{ads}}.
-```
+---
+
+## 4. Column geometry
+
+The column cross-sectional area is calculated directly from the specified
+diameter:
+
+\[
+s=\pi\left(\frac{d}{2}\right)^2.
+\]
 
 <p align="right">(6)</p>
-For
 
-```math
-\Delta H_{\mathrm{ads}} = -44.1 kJ mol⁻¹
-\Delta S_{\mathrm{ads}} = -121.6 J mol⁻¹ K⁻¹
-```
+With
+
+\[
+d=0.020000\ {\rm m},
+\]
+
+the program obtains
+
+\[
+s=3.141592654\times10^{-4}\ {\rm m^2}.
+\]
+
+The standard surface area is
+
+\[
+s_0=1.000000\times10^{-4}\ {\rm m^2},
+\]
+
+corresponding to the 1 cm² value stated in the input file.
+
+---
+
+## 5. Characteristic Hg frequency
+
+The input file retains two Hg-dominated vibrational frequencies for
+traceability:
+
+\[
+\tilde\nu_1=19.312\ {\rm cm^{-1}},
+\qquad
+\tilde\nu_2=19.5168\ {\rm cm^{-1}}.
+\]
+
+The characteristic frequency used by the compact deposition-temperature
+solver is their geometric mean:
+
+\[
+\tilde\nu_B
+=
+\sqrt{\tilde\nu_1\tilde\nu_2}
+=
+19.414130\ {\rm cm^{-1}},
+\]
+
+which is supplied to the solver as
+
+\[
+\nu_B=5.8202097368\times10^{11}\ {\rm s^{-1}}.
+\]
 
 <p align="right">(7)</p>
-this gives approximately
 
-```math
-T_{\mathrm{eq}} = 362.7 K.
-```
+The README does not reinterpret these modes; it records the frequency
+definition already specified in `input_params.txt`.
+
+---
+
+## 6. Compact prefactor
+
+For numerical convenience the implementation forms
+
+\[
+A=
+\frac{s_0\nu_B\sqrt{2\pi M}\,Q\,g}{s}.
+\]
 
 <p align="right">(8)</p>
-This is only the temperature satisfying
 
-```math
-\Delta G_{\mathrm{ads}} = \Delta H_{\mathrm{ads}} - T \Delta S_{\mathrm{ads}} = 0
-```
+Equation (1) can then be written as
+
+\[
+f(T)
+=
+\frac{\Delta H_{\mathrm{des}}}{RT}
+-\frac{\Delta S_{\mathrm{des}}}{R}
+-\ln\!\left(\frac{A}{T^{3/2}}\right).
+\]
 
 <p align="right">(9)</p>
-under the assumption that the supplied H and S are temperature independent.
 
-It is **not** the Eichler–Zvara deposition temperature.
+The deposition temperature is the numerical root
 
-The deposition temperature depends on transport and experimental conditions;
-the thermodynamic ΔG=0 temperature does not contain the carrier-flow,
-gradient, or column-geometry terms.
+\[
+f(T_a)=0.
+\]
 
-## Numerical implementation
+<p align="right">(10)</p>
 
-The corrected solver:
+For the three supplied flow rates, the resulting prefactors are:
 
-1. reads a simple `name = value` input file;
-2. converts the flow rate using the exact sccm definition;
-3. calculates the column cross-sectional area;
-4. constructs the compact Eichler–Zvara prefactor;
-5. brackets the temperature root over a specified interval;
-6. solves it with Brent's method;
-7. reports the residual;
-8. reports the independent ΔG=0 temperature;
-9. evaluates the mobile-adsorption entropy as a diagnostic.
+| \(Q\) (sccm) | \(A\) |
+|---:|---:|
+| 0.002 | \(1.096180534\times10^4\) |
+| 0.005 | \(2.740451334\times10^4\) |
+| 0.010 | \(5.480902668\times10^4\) |
 
-Run with
+Because \(A\propto Q\), increasing the flow increases the compact
+prefactor and, for the present thermodynamic parameter set, decreases the
+computed deposition temperature.
+
+---
+
+## 7. Numerical root-finding
+
+The source code does not rely on a single arbitrary initial guess.
+
+The temperature interval is read from:
 
 ```text
+T_min_K = 50.0
+T_max_K = 1000.0
+```
+
+The interval is divided into 2000 equal subintervals, giving 2001 grid
+points. The program searches sequentially for the first interval in which
+the residual changes sign.
+
+Once a sign-changing interval \([a,b]\) is found, the root is refined using
+`scipy.optimize.brentq` with:
+
+```text
+xtol = 1e-10 K
+rtol = 1e-12
+```
+
+The first root encountered is reported.
+
+If no sign-changing interval exists in the requested temperature range, the
+program raises a `RuntimeError`.
+
+The reported residuals in the supplied logs are effectively zero:
+
+| \(Q\) (sccm) | \(T_a\) (K) | \(f(T_a)\) |
+|---:|---:|---:|
+| 0.002 | 444.043288 | \(1.126\times10^{-12}\) |
+| 0.005 | 410.761265 | \(0.000\times10^{0}\) |
+| 0.010 | 388.890165 | \(-1.332\times10^{-15}\) |
+
+These residuals demonstrate numerical convergence of the implemented
+scalar equation; they do **not** establish physical accuracy of the
+underlying thermodynamic model.
+
+---
+
+## 8. Deposition-temperature results
+
+### 8.1 Summary of the supplied calculations
+
+| Flow \(Q\) (sccm) | Flow \(Q\) (m³/s) | \(T_a\) (K) | \(T_a\) (°C) | Mobile \(\Delta S_{\rm ads}(T_a)\) (J mol\(^{-1}\) K\(^{-1}\)) |
+|---:|---:|---:|---:|---:|
+| 0.002 | \(3.333333333\times10^{-11}\) | **444.043288** | **170.893288** | -149.604914 |
+| 0.005 | \(8.333333333\times10^{-11}\) | **410.761265** | **137.611265** | -149.928803 |
+| 0.010 | \(1.666666667\times10^{-10}\) | **388.890165** | **115.740165** | -150.156267 |
+
+Thus, within the compact model and the supplied parameter range,
+
+\[
+Q\uparrow
+\quad\Longrightarrow\quad
+T_a\downarrow.
+\]
+
+For the supplied three-point series, increasing the flow by a factor of five,
+from 0.002 to 0.010 sccm, lowers the predicted deposition temperature by
+
+\[
+444.043288-388.890165
+=
+55.153123\ {\rm K}.
+\]
+
+<p align="right">(11)</p>
+
+![Deposition temperature versus flow](deposition_temperature_vs_flow.png)
+
+*Figure 1. Deposition temperature obtained directly from the three supplied
+`solve_for_Ta.py` logs. The lines guide the eye and are not an additional
+model fit.*
+
+---
+
+## 9. Constant-\(H,S\) Gibbs-energy reference temperature
+
+The solver additionally reports
+
+\[
+T_{\mathrm{H/S}}
+=
+\frac{\Delta H_{\mathrm{ads}}}{\Delta S_{\mathrm{ads}}}.
+\]
+
+<p align="right">(12)</p>
+
+For the present input,
+
+\[
+T_{\mathrm{H/S}}
+=
+449.624855\ {\rm K}
+=
+176.474855^\circ{\rm C}.
+\]
+
+This quantity is a useful algebraic reference for a simplified
+constant-\(\Delta H\), constant-\(\Delta S\) relation
+
+\[
+\Delta G_{\mathrm{ads}}(T)
+=
+\Delta H_{\mathrm{ads}}
+-
+T\Delta S_{\mathrm{ads}},
+\]
+
+but it is **not** the same quantity as the deposition temperature obtained
+from Eq. (1). The latter also contains the thermochromatographic transport
+and frequency/geometry factor.
+
+The value \(449.624855\) K is identical in all three supplied solver logs
+because it depends only on the fixed \(\Delta H_{\mathrm{ads}}\) and
+\(\Delta S_{\mathrm{ads}}\), not on \(Q\).
+
+---
+
+## 10. `T_cross_K` in the input file
+
+`input_params.txt` also contains
+
+```text
+T_cross_K = 450.921106
+```
+
+The source program does **not** read this parameter when solving for
+`T_a`. It is therefore not the solver's deposition-temperature result and
+must not be substituted for the values in Section 8.
+
+The input file labels this value as a comparison value from the same
+DFT/phonon calculation. The two distinct temperatures should therefore be
+kept separate:
+
+| Quantity | Value | Role |
+|---|---:|---|
+| Solver \(T_a\), at 0.002 sccm | 444.043288 K | compact thermochromatographic deposition root |
+| Solver \(T_a\), at 0.005 sccm | 410.761265 K | compact thermochromatographic deposition root |
+| Solver \(T_a\), at 0.010 sccm | 388.890165 K | compact thermochromatographic deposition root |
+| Constant-\(H,S\) \(T_{\mathrm{H/S}}\) | 449.624855 K | algebraic reference |
+| Input `T_cross_K` | 450.921106 K | external/comparison value; unused by `solve_for_Ta.py` |
+
+---
+
+## 11. Mobile-adsorption entropy diagnostic
+
+The source code also provides a separate diagnostic function:
+
+\[
+\Delta S_{\mathrm{mobile}}
+=
+R\ln\!\left[
+\frac{1}{L_0}
+\frac{1}{\nu_B}
+\sqrt{\frac{k_BT}{2\pi m}}
+\right]
++\frac{R}{2},
+\]
+
+<p align="right">(13)</p>
+
+where
+
+\[
+m=\frac{M}{N_A}
+\]
+
+is the mass of one Hg particle and the default standard length is
+
+\[
+L_0=0.01\ {\rm m}.
+\]
+
+The implementation converts the input molar mass from g mol\(^{-1}\) to kg per
+particle before evaluating Eq. (13).
+
+For the three deposition temperatures, the diagnostic gives:
+
+| \(Q\) (sccm) | \(T_a\) (K) | \(\Delta S_{\mathrm{mobile}}(T_a)\) (J mol\(^{-1}\) K\(^{-1}\)) |
+|---:|---:|---:|
+| 0.002 | 444.043288 | -149.604914 |
+| 0.005 | 410.761265 | -149.928803 |
+| 0.010 | 388.890165 | -150.156267 |
+
+This diagnostic is printed by the program but is **not** inserted back into
+the compact residual of Eq. (9). It should therefore be interpreted as a
+reported thermodynamic diagnostic rather than an additional term in the
+root equation.
+
+---
+
+## 12. Complete active parameter set
+
+The following table collects the parameters actually used by
+`solve_for_Ta.py` for the supplied calculations.
+
+| Parameter | Active value | Unit | Role |
+|---|---:|---|---|
+| \(M\) | 200.59 | g mol\(^{-1}\) | Hg molar mass |
+| \(\nu_B\) | \(5.8202097368\times10^{11}\) | s\(^{-1}\) | characteristic Hg frequency |
+| \(s_0\) | \(1.0\times10^{-4}\) | m² | standard surface area |
+| \(Q\) | 0.002 / 0.005 / 0.010 | sccm | carrier-gas flow |
+| \(g\) | 50.0 | K m\(^{-1}\) | temperature gradient |
+| \(d\) | 0.020 | m | column diameter |
+| \(s\) | \(3.141592654\times10^{-4}\) | m² | calculated column area |
+| \(\Delta H_{\mathrm{ads}}\) | -47.0765871755 | kJ mol\(^{-1}\) | adsorption enthalpy |
+| \(\Delta S_{\mathrm{ads}}\) | -104.7019236234 | J mol\(^{-1}\) K\(^{-1}\) | adsorption entropy |
+| \(R\) | 8.31446261815324 | J mol\(^{-1}\) K\(^{-1}\) | gas constant |
+| \(T_{\min}\) | 50 | K | root-search lower bound |
+| \(T_{\max}\) | 1000 | K | root-search upper bound |
+| \(L_0\) | 0.01 | m | mobile-entropy diagnostic standard length |
+| \(N_A\) | \(6.02214076\times10^{23}\) | mol\(^{-1}\) | Avogadro constant |
+| \(k_B\) | \(1.380649\times10^{-23}\) | J K\(^{-1}\) | Boltzmann constant |
+
+### Parameters retained only for traceability
+
+The input file also contains:
+
+| Parameter | Value | Status in `solve_for_Ta.py` |
+|---|---:|---|
+| `hg_frequency_1_cm1` | 19.312 cm\(^{-1}\) | traceability only |
+| `hg_frequency_2_cm1` | 19.5168 cm\(^{-1}\) | traceability only |
+| `T_cross_K` | 450.921106 K | comparison value; **unused by solver** |
+
+---
+
+## 13. Relationship to the Hg/Au(111) atomistic calculation
+
+The thermodynamic input used by the deposition-temperature solver is associated
+with the Hg/Au(111) atomistic workflow documented separately in the project.
+
+The supplied computational specification identifies:
+
+| Quantity | Specification |
+|---|---|
+| Surface | Au(111) |
+| Adsorbate | one Hg atom |
+| Surface construction | ASE `fcc111` |
+| Surface cell | \(4\times4\) |
+| Slab thickness | 6 Au layers |
+| Au atoms | 96 |
+| Vacuum | 18 Å |
+| Lattice constant | 4.08 Å |
+| Adsorption site | fcc |
+| Initial Hg height | 3.0 Å |
+| Force/energy model | MACE |
+| MACE model | `mace-mp-0b3-medium.model` |
+| ASE version | 3.29.0 |
+| MACE version | 0.3.16 |
+| Vibrational method | finite-displacement Hessian |
+| Default displacement | 0.005 Å |
+| Frequency cutoff | 1 cm\(^{-1}\) |
+| Representative thermodynamic pressure | 1 bar in the compact-equation input |
+| Thermochemical reference temperature | 298.15 K |
+
+The atomistic calculation is a constrained-coordinate, Gamma-point harmonic
+model. It should not be described as a Brillouin-zone-converged phonon
+calculation.
+
+For the constrained Hessian workflow, frozen atoms remain present in the
+force calculations; only the selected mobile coordinates are displaced and
+included in the Hessian coordinate space.
+
+---
+
+## 14. Reproducibility
+
+### Run with the default input file
+
+```bash
 python solve_for_Ta.py
 ```
-or
 
-```text
+### Run with an explicit parameter file
+
+```bash
 python solve_for_Ta.py input_params.txt
 ```
-## Scientific scope and limitations
 
-This correction fixes the coding/input errors identified in the supplied
-files. It does not establish that the compact equation is sufficient for a
-publication-level Hg/Au(111) thermochromatography prediction.
+The script requires Python together with SciPy because it imports
 
-Before using the result quantitatively, verify:
+```python
+from scipy.optimize import brentq
+```
 
-- the actual experimental carrier-gas flow;
-- whether Q is reported at standard conditions;
-- the precise V/A standard state;
-- compatibility of the supplied DFT/phonon ΔS with that standard state;
-- the appropriate characteristic frequency for Au(111);
-- whether Hg is a mobile 2-D adsorbate or a localized adsorbate;
-- starting temperature and experiment duration;
-- whether the full Eichler–Zvara transport integral should be evaluated;
-- temperature dependence of ΔH and ΔS;
-- coverage/site effects and experimental uncertainties.
+The calculation is deterministic for a fixed input file and software
+environment.
 
-## References
+The output explicitly reports the input file used, thermodynamic parameters,
+transport parameters, calculated column area, compact prefactor, deposition
+temperature, root residual, constant-\(H,S\) reference temperature, mobile
+entropy diagnostic, and flow-conversion check.
 
-Eichler, B.; Zvara, I. (1982).
-Evaluation of the Enthalpy of Adsorption from Thermochromatographical Data.
-Radiochimica Acta 30(4), 233–238.
-DOI: 10.1524/ract.1982.30.4.233
+---
 
-Novgorodov, A. F.; Rösch, F.; Korolev, N. A. (2011).
-Radiochemical Separations by Thermochromatography.
-Handbook of Nuclear Chemistry, Chapter 53.
-DOI: 10.1007/978-1-4419-0720-2_53
+## 15. Numerical and physical interpretation
+
+The three supplied calculations show a monotonic decrease in \(T_a\) with
+increasing flow:
+
+\[
+0.002\rightarrow0.005\rightarrow0.010\ {\rm sccm}
+\]
+
+corresponds to
+
+\[
+444.0433\rightarrow410.7613\rightarrow388.8902\ {\rm K}.
+\]
+
+<p align="right">(14)</p>
+
+This trend is a property of the implemented compact equation under the
+specified parameter set. It should not be generalized beyond the model
+without checking the assumptions behind the Eichler–Zvara relation.
+
+The calculation should be viewed as a model-based deposition-temperature
+prediction. It is not, by itself, an experimental calibration or a proof
+that the physical deposition temperature is known to the numerical
+precision of the root solver.
+
+In particular, the very small residuals reported in Section 7 measure only
+the numerical solution of the implemented equation. They do not quantify
+uncertainty in:
+
+- the MACE potential;
+- the optimized Hg/Au(111) structure;
+- the harmonic approximation;
+- the selected Hg frequencies;
+- the thermodynamic reference state;
+- the compact Eichler–Zvara approximation;
+- the flow or temperature-gradient measurements; or
+- the representation of the thermochromatographic column.
+
+---
+
+## 16. Important implementation notes
+
+1. **Flow conversion is corrected.**  
+   The program uses \(1\ {\rm sccm}=10^{-6}/60\ {\rm m^3\,s^{-1}}\). The
+   historical `2e-9 m³/s` value corresponds to 0.12 sccm.
+
+2. **The active flow in `input_params.txt` is 0.010 sccm.**  
+   The 0.002 and 0.005 sccm cases are represented by the supplied output
+   logs, not by the currently uncommented `Q_sccm` line.
+
+3. **The compact equation uses \(M\) in g mol\(^{-1}\).**  
+   This is intentional and source-defined.
+
+4. **Adsorption/desorption signs are explicitly reversed in the solver.**  
+   The input stores adsorption values; Eq. (1) uses the corresponding
+   desorption quantities.
+
+5. **`T_cross_K` is not used by the solver.**  
+   It is retained in the input for comparison/traceability only.
+
+6. **The mobile entropy function is diagnostic only.**  
+   Its output is printed after solving but does not alter the deposition root.
+
+7. **The root search uses the first sign-changing interval.**  
+   If a future parameter set produces multiple roots inside the requested
+   temperature range, this implementation will return the first one found
+   on the increasing temperature grid.
+
+8. **The input parser is intentionally simple.**  
+   It reads numeric `name=value` lines, ignores blank lines and comment lines,
+   and raises an error for a non-numeric value.
+
+9. **Positive-value checks are applied to \(M\), \(\nu_B\), \(s_0\), \(Q\),
+   \(g\), and the calculated column area \(s\).**
+
+---
+
+## 17. Compact results for direct reporting
+
+For the present Hg/Au(111) parameter set:
+
+> **\(Q=0.002\ {\rm sccm}\): \(T_a=444.043288\ {\rm K}=170.893288^\circ{\rm C}\).**
+
+> **\(Q=0.005\ {\rm sccm}\): \(T_a=410.761265\ {\rm K}=137.611265^\circ{\rm C}\).**
+
+> **\(Q=0.010\ {\rm sccm}\): \(T_a=388.890165\ {\rm K}=115.740165^\circ{\rm C}\).**
+
+The currently active `input_params.txt` case is therefore:
+
+\[
+\boxed{
+Q=0.010\ {\rm sccm},
+\qquad
+T_a=388.890165\ {\rm K}
+=
+115.740165^\circ{\rm C}
+}
+\]
+
+<p align="right">(15)</p>
+
+with a numerical equation residual of
+
+\[
+-1.332\times10^{-15}.
+\]
+
+---
+
+## 18. Provenance
+
+This README is regenerated from the source and outputs supplied for the
+deposition-temperature calculation. The numerical result tables in Sections
+7–10 reproduce the values printed by the three attached `solve_for_Ta.py`
+logs.
+
+The associated Hg/Au(111) atomistic parameters in Section 13 are included
+only to document the thermochemical provenance of the input quantities; they
+are not re-computed by `solve_for_Ta.py`.
+
+---
+
+## 19. Summary
+
+The implemented workflow is:
+
+\[
+\boxed{
+\text{Hg/Au(111) thermochemistry}
+\rightarrow
+(\Delta H_{\rm ads},\Delta S_{\rm ads},\nu_B)
+\rightarrow
+\text{flow/geometry conversion}
+\rightarrow
+\text{compact Eichler--Zvara residual}
+\rightarrow
+\text{bracketed Brent root}
+\rightarrow
+T_a
+}
+\]
+
+<p align="right">(16)</p>
+
+Using the supplied parameters, the compact model predicts decreasing
+deposition temperature with increasing carrier-gas flow, from
+
+\[
+444.043288\ {\rm K}
+\]
+
+at 0.002 sccm to
+
+\[
+388.890165\ {\rm K}
+\]
+
+at 0.010 sccm.
+
+The README deliberately distinguishes this transport-model deposition
+temperature from the constant-\(H,S\) Gibbs-energy reference temperature
+(\(449.624855\) K) and from the separate `T_cross_K` value stored in the
+input file (\(450.921106\) K).
