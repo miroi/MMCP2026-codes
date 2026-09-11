@@ -95,7 +95,8 @@ The atomic energies are evaluated with a MACE calculator. The default model is `
 
 The adsorption energy is defined as
 
-<span id="eq-008">$$\Delta E_{\text{ads}} = E_{\text{HgAu}} - E_{\text{Au}} - E_{\text{Hg}}$$</span>
+<span id="eq-8">$$\Delta E_{\text{ads}} = E_{\text{HgAu}} - E_{\text{Au}} - E_{\text{Hg}}
+\tag{8}$$</span>
 
 where
 
@@ -136,7 +137,8 @@ The Hg--surface distance is reported before and after optimization, together wit
 
 Let the mobile vibrational Cartesian coordinates be collected into a vector $q$ of dimension $3N_{\text{mobile}}$. The harmonic potential around the optimized structure is
 
-<span id="eq-001">$$V(q) = V_0 + \tfrac{1}{2} q^{T} H q$$</span>
+<span id="eq-1">$$V(q) = V_0 + \tfrac{1}{2} q^{T} H q
+\tag{1}$$</span>
 
 where $H$ is the mass-unweighted Cartesian Hessian in the selected coordinate space.
 
@@ -153,7 +155,8 @@ This preserves the interaction of mobile atoms with the vibrationally frozen ato
 
 The custom backend constructs the Hessian from finite differences of forces. For a central two-point scheme, the derivative is represented schematically by
 
-<span id="eq-002">$$H_{ij} = -\frac{F_i(q_j + d) - F_i(q_j - d)}{2d}$$</span>
+<span id="eq-2">$$H_{ij} = -\frac{F_i(q_j + d) - F_i(q_j - d)}{2d}
+\tag{2}$$</span>
 
 where $d$ is the configured displacement in Angstrom. The minus sign appears because forces are the negative gradient of the potential.
 
@@ -163,7 +166,8 @@ The displacement is controlled by `phonon_displacement = 0.005` in Angstrom. For
 
 For a four-point central finite-difference force derivative, when the selected implementation uses `nfree = 4`, the corresponding first derivative can be formed from the forces at $-2d$, $-d$, $+d$, and $+2d$. With the sign convention $F = -dV/dq$, the Hessian is obtained from the negative force derivative. The two-point central formula remains
 
-<span id="eq-003">$$H_{ij} = -\frac{F_i(q_j+d) - F_i(q_j-d)}{2d}.$$</span>
+<span id="eq-3">$$H_{ij} = -\frac{F_i(q_j+d) - F_i(q_j-d)}{2d}.
+\tag{3}$$</span>
 
 For a structure with $N_{\text{mobile}}$ mobile atoms, the central two-point Hessian requires $2 \times (3 N_{\text{mobile}})$ complete force evaluations, because each of the $3 N_{\text{mobile}}$ Cartesian coordinates is displaced in both directions.
 
@@ -178,13 +182,15 @@ These counts refer to force evaluations on the full physical systems. The frozen
 
 After construction of the Cartesian Hessian, the Hessian is mass weighted. For Cartesian coordinates $i$ and $j$ associated with atoms $a$ and $b$,
 
-<span id="eq-004">$$D_{ij} = \frac{H_{ij}}{\sqrt{m_a m_b}}$$</span>
+<span id="eq-4">$$D_{ij} = \frac{H_{ij}}{\sqrt{m_a m_b}}
+\tag{4}$$</span>
 
 with the appropriate atomic masses in atomic mass units.
 
 Diagonalization gives eigenvalues $\lambda_k$ and normal-mode eigenvectors. The vibrational angular frequencies are related to the eigenvalues by
 
-<span id="eq-005">$$\omega_k = \sqrt{\lambda_k}$$</span>
+<span id="eq-5">$$\omega_k = \sqrt{\lambda_k}
+\tag{5}$$</span>
 
 for positive $\lambda_k$. Frequencies are converted to wavenumbers in cm<sup>-1</sup>.
 
@@ -216,27 +222,32 @@ The calculation distinguishes the electronic potential-energy contribution from 
 
 For the adsorption reaction
 
-<span id="eq-006">$$\text{Hg}(g,T,P) + \text{Au}(111) \rightarrow \text{Hg}^{*}/\text{Au}(111),$$</span>
+<span id="eq-6">$$\text{Hg}(g,T,P) + \text{Au}(111) \rightarrow \text{Hg}^{*}/\text{Au}(111),
+\tag{6}$$</span>
 
 the working thermodynamic convention is
 
-<span id="eq-007">$$\Delta G_{\text{ads}}(T,P)
+<span id="eq-7">$$\Delta G_{\text{ads}}(T,P)
   = \Delta E_{\text{ads}} + \Delta F_{\text{vib}}(T)
-    - \mu_{\text{Hg,thermal}}(T,P).$$</span>
+    - \mu_{\text{Hg,thermal}}(T,P).
+\tag{7}$$</span>
 
 The same quantity is evaluated independently through
 
-<span id="eq-009">$$\Delta G_{\text{ads}} = \Delta H_{\text{ads}} - T \Delta S_{\text{ads}}.$$</span>
+<span id="eq-9">$$\Delta G_{\text{ads}} = \Delta H_{\text{ads}} - T \Delta S_{\text{ads}}.
+\tag{9}$$</span>
 
 The implementation checks that these two expressions agree numerically.
 
 The electronic term is
 
-<span id="eq-010">$$\Delta E_{\text{ads}} = E_{\text{HgAu}} - E_{\text{Au}} - E_{\text{Hg}}.$$</span>
+<span id="eq-10">$$\Delta E_{\text{ads}} = E_{\text{HgAu}} - E_{\text{Au}} - E_{\text{Hg}}.
+\tag{10}$$</span>
 
 The solid-state vibrational free-energy difference is
 
-<span id="eq-011">$$\Delta F_{\text{vib}} = F_{\text{vib,HgAu}} - F_{\text{vib,Au}}.$$</span>
+<span id="eq-11">$$\Delta F_{\text{vib}} = F_{\text{vib,HgAu}} - F_{\text{vib,Au}}.
+\tag{11}$$</span>
 
 The gas chemical potential is defined relative to the isolated-Hg electronic energy already included in $\Delta E_{\text{ads}}$; hence the gas term used here is the thermal ideal-gas contribution rather than a second electronic atomic-energy term.
 
@@ -244,13 +255,15 @@ The gas chemical potential is defined relative to the isolated-Hg electronic ene
 
 For a normal mode of frequency $\nu$,
 
-<span id="eq-012">$$\epsilon = h \nu = h c \tilde{\nu},$$</span>
+<span id="eq-12">$$\epsilon = h \nu = h c \tilde{\nu},
+\tag{12}$$</span>
 
 where $\tilde{\nu}$ is the wavenumber in cm<sup>-1</sup>.
 
 The dimensionless temperature parameter is
 
-<span id="eq-013">$$x = \frac{\epsilon}{k_B T} = \frac{h \nu}{k_B T}.$$</span>
+<span id="eq-13">$$x = \frac{\epsilon}{k_B T} = \frac{h \nu}{k_B T}.
+\tag{13}$$</span>
 
 The quantum harmonic-oscillator energy levels are
 
@@ -258,45 +271,52 @@ $$E_n = h \nu \left(n + \tfrac{1}{2}\right), \qquad n = 0, 1, 2, \ldots$$
 
 The single-mode vibrational partition function is
 
-<span id="eq-014">$$q_{\text{vib}}
+<span id="eq-14">$$q_{\text{vib}}
   = \sum_n \exp\left[-\beta h \nu \left(n + \tfrac{1}{2}\right)\right]
-  = \frac{\exp(-x/2)}{1 - \exp(-x)},$$</span>
+  = \frac{\exp(-x/2)}{1 - \exp(-x)},
+\tag{14}$$</span>
 
 with $\beta = 1/(k_B T)$.
 
 The corresponding Helmholtz free energy is
 
-<span id="eq-015">$$F_{\text{vib,mode}}
+<span id="eq-15">$$F_{\text{vib,mode}}
   = -k_B T \ln(q_{\text{vib}})
-  = \frac{h \nu}{2} + k_B T \ln\left(1 - e^{-x}\right).$$</span>
+  = \frac{h \nu}{2} + k_B T \ln\left(1 - e^{-x}\right).
+\tag{15}$$</span>
 
 The mean energy is
 
-<span id="eq-016">$$U_{\text{vib,mode}}
+<span id="eq-16">$$U_{\text{vib,mode}}
   = -\frac{d \ln(q_{\text{vib}})}{d\beta}
-  = \frac{h \nu}{2} + \frac{h \nu}{e^{x} - 1}.$$</span>
+  = \frac{h \nu}{2} + \frac{h \nu}{e^{x} - 1}.
+\tag{16}$$</span>
 
 Thus the zero-point term and the finite-temperature thermal term are naturally separated as
 
-<span id="eq-017">$$\text{ZPE}_{\text{mode}} = \frac{h \nu}{2}$$</span>
+<span id="eq-17">$$\text{ZPE}_{\text{mode}} = \frac{h \nu}{2}
+\tag{17}$$</span>
 
 and
 
-<span id="eq-018">$$U_{\text{vib,thermal,mode}} = \frac{h \nu}{e^{x} - 1}.$$</span>
+<span id="eq-18">$$U_{\text{vib,thermal,mode}} = \frac{h \nu}{e^{x} - 1}.
+\tag{18}$$</span>
 
 ### 6.2 Vibrational entropy from the partition function
 
 For a mode,
 
-<span id="eq-019">$$S_{\text{vib,mode}}
-  = \frac{U_{\text{vib,mode}} - F_{\text{vib,mode}}}{T}.$$</span>
+<span id="eq-19">$$S_{\text{vib,mode}}
+  = \frac{U_{\text{vib,mode}} - F_{\text{vib,mode}}}{T}.
+\tag{19}$$</span>
 
 Substitution gives
 
-<span id="eq-020">$$S_{\text{vib,mode}}
+<span id="eq-20">$$S_{\text{vib,mode}}
   = k_B \left[
       \frac{x}{e^{x} - 1} - \ln\left(1 - e^{-x}\right)
-    \right].$$</span>
+    \right].
+\tag{20}$$</span>
 
 For independent harmonic modes, the total quantities are sums over all retained positive modes.
 
@@ -304,9 +324,10 @@ For independent harmonic modes, the total quantities are sums over all retained 
 
 Differentiation of the thermal vibrational energy gives
 
-<span id="eq-021">$$C_{V,\text{vib,mode}}
+<span id="eq-21">$$C_{V,\text{vib,mode}}
   = \frac{d U_{\text{vib,thermal}}}{dT}
-  = k_B \frac{x^2 e^{x}}{(e^{x} - 1)^2}.$$</span>
+  = k_B \frac{x^2 e^{x}}{(e^{x} - 1)^2}.
+\tag{21}$$</span>
 
 The total harmonic vibrational heat capacity is the sum over modes.
 
@@ -316,24 +337,28 @@ The implementation does not require $C_V$ explicitly for the adsorption free ene
 
 For each harmonic state,
 
-<span id="eq-022">$$F_{\text{vib}} = U_{\text{vib,total}} - T S_{\text{vib}},$$</span>
+<span id="eq-22">$$F_{\text{vib}} = U_{\text{vib,total}} - T S_{\text{vib}},
+\tag{22}$$</span>
 
 and therefore
 
-<span id="eq-023">$$\Delta F_{\text{vib}}
-  = \Delta U_{\text{vib,total}} - T \Delta S_{\text{vib}}.$$</span>
+<span id="eq-23">$$\Delta F_{\text{vib}}
+  = \Delta U_{\text{vib,total}} - T \Delta S_{\text{vib}}.
+\tag{23}$$</span>
 
 When ZPE is included,
 
-<span id="eq-024">$$\Delta U_{\text{vib,total}}
-  = \Delta \text{ZPE} + \Delta U_{\text{vib,thermal}},$$</span>
+<span id="eq-24">$$\Delta U_{\text{vib,total}}
+  = \Delta \text{ZPE} + \Delta U_{\text{vib,thermal}},
+\tag{24}$$</span>
 
 so that
 
-<span id="eq-025">$$\Delta F_{\text{vib}}
+<span id="eq-25">$$\Delta F_{\text{vib}}
   = \Delta \text{ZPE}
     + \Delta U_{\text{vib,thermal}}
-    - T \Delta S_{\text{vib}}.$$</span>
+    - T \Delta S_{\text{vib}}.
+\tag{25}$$</span>
 
 This identity is the algebraic bridge between the two adsorption-free-energy routes implemented in the code.
 
@@ -341,12 +366,14 @@ This identity is the algebraic bridge between the two adsorption-free-energy rou
 
 For each retained positive frequency $\nu$ in cm<sup>-1</sup>, the quantum of vibrational energy is
 
-<span id="eq-026">$$\epsilon = h c \nu.$$</span>
+<span id="eq-26">$$\epsilon = h c \nu.
+\tag{26}$$</span>
 
 In electron-volt units the implementation uses
 
-<span id="eq-027">$$\epsilon (\text{eV}) = 1.2398419843320026 \times 10^{-4} \,
-\nu (\text{cm}^{-1}).$$</span>
+<span id="eq-27">$$\epsilon (\text{eV}) = 1.2398419843320026 \times 10^{-4} \,
+\nu (\text{cm}^{-1}).
+\tag{27}$$</span>
 
 ### 7.1 Zero-point energy
 
@@ -356,7 +383,8 @@ $$\text{ZPE} = \tfrac{1}{2} \sum_k \epsilon_k.$$
 
 The adsorption ZPE correction is
 
-<span id="eq-028">$$\Delta \text{ZPE} = \text{ZPE}_{\text{HgAu}} - \text{ZPE}_{\text{Au}}.$$</span>
+<span id="eq-28">$$\Delta \text{ZPE} = \text{ZPE}_{\text{HgAu}} - \text{ZPE}_{\text{Au}}.
+\tag{28}$$</span>
 
 The code retains the raw ZPE difference and applies the `include_zpe` switch explicitly.
 
@@ -364,21 +392,25 @@ The code retains the raw ZPE difference and applies the `include_zpe` switch exp
 
 The thermal excitation energy of one harmonic mode is
 
-<span id="eq-029">$$U_{k,\text{thermal}}
-  = \frac{\epsilon_k}{\exp(\epsilon_k / (k_B T)) - 1}.$$</span>
+<span id="eq-29">$$U_{k,\text{thermal}}
+  = \frac{\epsilon_k}{\exp(\epsilon_k / (k_B T)) - 1}.
+\tag{29}$$</span>
 
 Therefore
 
-<span id="eq-030">$$U_{\text{vib,thermal}}(T) = \sum_k U_{k,\text{thermal}}.$$</span>
+<span id="eq-30">$$U_{\text{vib,thermal}}(T) = \sum_k U_{k,\text{thermal}}.
+\tag{30}$$</span>
 
 The adsorption vibrational thermal-energy correction is
 
-<span id="eq-031">$$\Delta U_{\text{vib,thermal}}
-  = U_{\text{HgAu,thermal}} - U_{\text{Au,thermal}}.$$</span>
+<span id="eq-31">$$\Delta U_{\text{vib,thermal}}
+  = U_{\text{HgAu,thermal}} - U_{\text{Au,thermal}}.
+\tag{31}$$</span>
 
 If ZPE is included, the total vibrational internal energy is
 
-<span id="eq-032">$$U_{\text{vib,total}} = \text{ZPE} + U_{\text{vib,thermal}}.$$</span>
+<span id="eq-32">$$U_{\text{vib,total}} = \text{ZPE} + U_{\text{vib,thermal}}.
+\tag{32}$$</span>
 
 ### 7.3 Vibrational Helmholtz free energy
 
@@ -389,12 +421,14 @@ $$F_k = \tfrac{1}{2} \epsilon_k
 
 Thus
 
-<span id="eq-033">$$F_{\text{vib}}(T) = \sum_k F_k$$</span>
+<span id="eq-33">$$F_{\text{vib}}(T) = \sum_k F_k
+\tag{33}$$</span>
 
 and
 
-<span id="eq-034">$$\Delta F_{\text{vib}}
-  = F_{\text{HgAu,vib}} - F_{\text{Au,vib}}.$$</span>
+<span id="eq-34">$$\Delta F_{\text{vib}}
+  = F_{\text{HgAu,vib}} - F_{\text{Au,vib}}.
+\tag{34}$$</span>
 
 When ZPE is disabled, the zero-point term is removed consistently from the reported vibrational free-energy correction.
 
@@ -402,13 +436,15 @@ When ZPE is disabled, the zero-point term is removed consistently from the repor
 
 The vibrational entropy can be obtained from
 
-<span id="eq-035">$$S_{\text{vib}}
-  = \frac{U_{\text{vib,total}} - F_{\text{vib}}}{T}.$$</span>
+<span id="eq-35">$$S_{\text{vib}}
+  = \frac{U_{\text{vib,total}} - F_{\text{vib}}}{T}.
+\tag{35}$$</span>
 
 The adsorption vibrational entropy change is
 
-<span id="eq-036">$$\Delta S_{\text{vib}}
-  = S_{\text{HgAu,vib}} - S_{\text{Au,vib}}.$$</span>
+<span id="eq-36">$$\Delta S_{\text{vib}}
+  = S_{\text{HgAu,vib}} - S_{\text{Au,vib}}.
+\tag{36}$$</span>
 
 The implementation evaluates this quantity from the same harmonic mode sets used for the vibrational energy and free energy.
 
@@ -420,16 +456,19 @@ This section collects the complete set of thermodynamic equations used by the wo
 
 The code uses eV for energies and eV/K for entropies. Vibrational frequencies are stored as wavenumbers in cm<sup>-1</sup>. The photon-like quantum associated with a vibrational wavenumber $\bar{\nu}$ is
 
-<span id="eq-037">$$\epsilon = h c \bar{\nu}.$$</span>
+<span id="eq-37">$$\epsilon = h c \bar{\nu}.
+\tag{37}$$</span>
 
 In the project's eV units,
 
-<span id="eq-038">$$\epsilon\,[\text{eV}] = (hc)_{\text{eV}\cdot\text{cm}} \,
-\bar{\nu}\,[\text{cm}^{-1}],$$</span>
+<span id="eq-38">$$\epsilon\,[\text{eV}] = (hc)_{\text{eV}\cdot\text{cm}} \,
+\bar{\nu}\,[\text{cm}^{-1}],
+\tag{38}$$</span>
 
 where `HC_EV_CM` is the corresponding conversion constant. The dimensionless harmonic-oscillator variable is
 
-<span id="eq-039">$$x = \frac{\epsilon}{k_B T}.$$</span>
+<span id="eq-39">$$x = \frac{\epsilon}{k_B T}.
+\tag{39}$$</span>
 
 The same $x$ is used in the energy, entropy, and free-energy expressions.
 
@@ -451,11 +490,13 @@ with $\beta = 1/(k_B T)$.
 
 For a set of independent modes, the total vibrational partition function is the product
 
-<span id="eq-040">$$Q_{\text{vib}} = \prod_k q_k.$$</span>
+<span id="eq-40">$$Q_{\text{vib}} = \prod_k q_k.
+\tag{40}$$</span>
 
 Equivalently,
 
-<span id="eq-041">$$\ln Q_{\text{vib}} = \sum_k \ln q_k.$$</span>
+<span id="eq-41">$$\ln Q_{\text{vib}} = \sum_k \ln q_k.
+\tag{41}$$</span>
 
 #### 7.5.3 Vibrational zero-point energy
 
@@ -471,7 +512,8 @@ $$\text{ZPE}
 
 For adsorption, the vibrational zero-point correction is the difference between the adsorbed system and the clean surface:
 
-<span id="eq-042">$$\Delta \text{ZPE} = \text{ZPE}_{\text{HgAu}} - \text{ZPE}_{\text{Au}}.$$</span>
+<span id="eq-42">$$\Delta \text{ZPE} = \text{ZPE}_{\text{HgAu}} - \text{ZPE}_{\text{Au}}.
+\tag{42}$$</span>
 
 If `include_zpe = false`, the implementation sets this adsorption correction to zero in the thermochemical combination. The raw ZPE is still available as a diagnostic quantity, and the ASE free-energy output is adjusted so that the switch has the same meaning in both backends.
 
@@ -479,29 +521,34 @@ If `include_zpe = false`, the implementation sets this adsorption correction to 
 
 For one harmonic mode, excluding its zero-point contribution,
 
-<span id="eq-043">$$U_{\text{vib,thermal},k}
+<span id="eq-43">$$U_{\text{vib,thermal},k}
   = \frac{\epsilon_k}{\exp(\epsilon_k / (k_B T)) - 1}
-  = \frac{\epsilon_k}{e^{x_k} - 1}.$$</span>
+  = \frac{\epsilon_k}{e^{x_k} - 1}.
+\tag{43}$$</span>
 
 Thus
 
-<span id="eq-044">$$U_{\text{vib,thermal}}(T)
-  = \sum_k \frac{\epsilon_k}{e^{x_k} - 1}.$$</span>
+<span id="eq-44">$$U_{\text{vib,thermal}}(T)
+  = \sum_k \frac{\epsilon_k}{e^{x_k} - 1}.
+\tag{44}$$</span>
 
 The total harmonic vibrational internal energy, when ZPE is included, is
 
-<span id="eq-045">$$U_{\text{vib,total}}(T)
-  = \text{ZPE} + U_{\text{vib,thermal}}(T).$$</span>
+<span id="eq-45">$$U_{\text{vib,total}}(T)
+  = \text{ZPE} + U_{\text{vib,thermal}}(T).
+\tag{45}$$</span>
 
 For an adsorption process,
 
-<span id="eq-046">$$\Delta U_{\text{vib,thermal}}
-  = U_{\text{vib,thermal,HgAu}} - U_{\text{vib,thermal,Au}},$$</span>
+<span id="eq-46">$$\Delta U_{\text{vib,thermal}}
+  = U_{\text{vib,thermal,HgAu}} - U_{\text{vib,thermal,Au}},
+\tag{46}$$</span>
 
 and
 
-<span id="eq-047">$$\Delta U_{\text{vib,total}}
-  = \Delta \text{ZPE} + \Delta U_{\text{vib,thermal}}$$</span>
+<span id="eq-47">$$\Delta U_{\text{vib,total}}
+  = \Delta \text{ZPE} + \Delta U_{\text{vib,thermal}}
+\tag{47}$$</span>
 
 when ZPE is enabled.
 
@@ -511,34 +558,40 @@ The implementation evaluates the Bose-Einstein denominator numerically as `expm1
 
 For one harmonic mode,
 
-<span id="eq-048">$$F_{\text{vib},k} = -k_B T \ln(q_k).$$</span>
+<span id="eq-48">$$F_{\text{vib},k} = -k_B T \ln(q_k).
+\tag{48}$$</span>
 
 Using the harmonic partition function gives
 
-<span id="eq-049">$$F_{\text{vib},k}
+<span id="eq-49">$$F_{\text{vib},k}
   = \tfrac{1}{2} \epsilon_k
-    + k_B T \ln\left[1 - \exp(-\epsilon_k / (k_B T))\right].$$</span>
+    + k_B T \ln\left[1 - \exp(-\epsilon_k / (k_B T))\right].
+\tag{49}$$</span>
 
 Therefore,
 
-<span id="eq-050">$$F_{\text{vib}}(T)
+<span id="eq-50">$$F_{\text{vib}}(T)
   = \sum_k \left[
       \tfrac{1}{2} \epsilon_k + k_B T \ln(1 - e^{-x_k})
-    \right].$$</span>
+    \right].
+\tag{50}$$</span>
 
 The free energy can also be written as
 
-<span id="eq-051">$$F_{\text{vib}}
-  = \text{ZPE} + k_B T \sum_k \ln(1 - e^{-x_k}).$$</span>
+<span id="eq-51">$$F_{\text{vib}}
+  = \text{ZPE} + k_B T \sum_k \ln(1 - e^{-x_k}).
+\tag{51}$$</span>
 
 The adsorption vibrational free-energy correction is
 
-<span id="eq-052">$$\Delta F_{\text{vib}}(T)
-  = F_{\text{vib,HgAu}}(T) - F_{\text{vib,Au}}(T).$$</span>
+<span id="eq-52">$$\Delta F_{\text{vib}}(T)
+  = F_{\text{vib,HgAu}}(T) - F_{\text{vib,Au}}(T).
+\tag{52}$$</span>
 
 If ZPE is excluded by the project option, the corresponding ZPE term is removed consistently from this expression. With ZPE included, the identity
 
-<span id="eq-053">$$F_{\text{vib}} = U_{\text{vib,total}} - T S_{\text{vib}}$$</span>
+<span id="eq-53">$$F_{\text{vib}} = U_{\text{vib,total}} - T S_{\text{vib}}
+\tag{53}$$</span>
 
 holds for the harmonic oscillator.
 
@@ -546,29 +599,33 @@ holds for the harmonic oscillator.
 
 For one harmonic mode, the entropy is
 
-<span id="eq-054">$$S_{\text{vib},k}
+<span id="eq-54">$$S_{\text{vib},k}
   = k_B \left[
       \frac{x_k}{e^{x_k} - 1} - \ln(1 - e^{-x_k})
-    \right].$$</span>
+    \right].
+\tag{54}$$</span>
 
 Hence
 
-<span id="eq-055">$$S_{\text{vib}}(T)
+<span id="eq-55">$$S_{\text{vib}}(T)
   = k_B \sum_k \left[
       \frac{x_k}{e^{x_k} - 1} - \ln(1 - e^{-x_k})
-    \right].$$</span>
+    \right].
+\tag{55}$$</span>
 
 The equivalent thermodynamic identity used as a check is
 
-<span id="eq-056">$$S_{\text{vib}}
-  = \frac{U_{\text{vib,total}} - F_{\text{vib}}}{T}.$$</span>
+<span id="eq-56">$$S_{\text{vib}}
+  = \frac{U_{\text{vib,total}} - F_{\text{vib}}}{T}.
+\tag{56}$$</span>
 
 Because the zero-point term cancels between $U$ and $F$, the same entropy results whether $U$ is written as ZPE plus thermal energy or in the corresponding partition-function form.
 
 The adsorption vibrational entropy change is
 
-<span id="eq-057">$$\Delta S_{\text{vib}}(T)
-  = S_{\text{vib,HgAu}}(T) - S_{\text{vib,Au}}(T).$$</span>
+<span id="eq-57">$$\Delta S_{\text{vib}}(T)
+  = S_{\text{vib,HgAu}}(T) - S_{\text{vib,Au}}(T).
+\tag{57}$$</span>
 
 At fixed positive frequency, the low-temperature limit is $S_{\text{vib}} \to 0$. For a very soft mode, however, the harmonic entropy becomes large and therefore the numerical treatment of low frequencies is particularly important.
 
@@ -576,9 +633,10 @@ At fixed positive frequency, the low-temperature limit is $S_{\text{vib}} \to 0$
 
 Although heat capacity is not required as an independent input to the final $\Delta G$ calculation, it follows from the same harmonic model and is useful for interpreting the temperature dependence:
 
-<span id="eq-058">$$C_{V,\text{vib}}
+<span id="eq-58">$$C_{V,\text{vib}}
   = \left(\frac{dU_{\text{vib,total}}}{dT}\right)_V
-  = k_B \sum_k \frac{x_k^2 e^{x_k}}{(e^{x_k} - 1)^2}.$$</span>
+  = k_B \sum_k \frac{x_k^2 e^{x_k}}{(e^{x_k} - 1)^2}.
+\tag{58}$$</span>
 
 The zero-point term has zero temperature derivative and therefore does not contribute to $C_V$.
 
@@ -586,23 +644,27 @@ The zero-point term has zero temperature derivative and therefore does not contr
 
 For the harmonic surface model,
 
-<span id="eq-059">$$F_{\text{vib}} = U_{\text{vib,total}} - T S_{\text{vib}},$$</span>
+<span id="eq-59">$$F_{\text{vib}} = U_{\text{vib,total}} - T S_{\text{vib}},
+\tag{59}$$</span>
 
 and therefore
 
-<span id="eq-060">$$\Delta F_{\text{vib}}
-  = \Delta U_{\text{vib,total}} - T \Delta S_{\text{vib}}.$$</span>
+<span id="eq-60">$$\Delta F_{\text{vib}}
+  = \Delta U_{\text{vib,total}} - T \Delta S_{\text{vib}}.
+\tag{60}$$</span>
 
 When ZPE is included,
 
-<span id="eq-061">$$\Delta U_{\text{vib,total}}
-  = \Delta \text{ZPE} + \Delta U_{\text{vib,thermal}}.$$</span>
+<span id="eq-61">$$\Delta U_{\text{vib,total}}
+  = \Delta \text{ZPE} + \Delta U_{\text{vib,thermal}}.
+\tag{61}$$</span>
 
 Consequently,
 
-<span id="eq-062">$$\Delta F_{\text{vib}}
+<span id="eq-62">$$\Delta F_{\text{vib}}
   = \Delta \text{ZPE} + \Delta U_{\text{vib,thermal}}
-    - T \Delta S_{\text{vib}}.$$</span>
+    - T \Delta S_{\text{vib}}.
+\tag{62}$$</span>
 
 This identity is the algebraic bridge between the explicit $\Delta H - T \Delta S$ route and the compact $\Delta E + \Delta F - \mu$ route used in the code.
 
@@ -615,22 +677,25 @@ $$\text{Au}: \{\nu_k^{\text{Au}}\}, \qquad
 
 For any vibrational function $X$,
 
-<span id="eq-063">$$\Delta X_{\text{vib}}
-  = X_{\text{vib,HgAu}} - X_{\text{vib,Au}}.$$</span>
+<span id="eq-63">$$\Delta X_{\text{vib}}
+  = X_{\text{vib,HgAu}} - X_{\text{vib,Au}}.
+\tag{63}$$</span>
 
 Thus, explicitly,
 
-<span id="eq-064">$$\Delta \text{ZPE}
+<span id="eq-64">$$\Delta \text{ZPE}
   = \tfrac{1}{2} \sum_k \epsilon_k^{\text{HgAu}}
-    - \tfrac{1}{2} \sum_j \epsilon_j^{\text{Au}},$$</span>
+    - \tfrac{1}{2} \sum_j \epsilon_j^{\text{Au}},
+\tag{64}$$</span>
 
-<span id="eq-065">$$\Delta U_{\text{vib,thermal}}(T)
+<span id="eq-65">$$\Delta U_{\text{vib,thermal}}(T)
   = \sum_k \frac{\epsilon_k^{\text{HgAu}}}
                  {\exp(\epsilon_k^{\text{HgAu}} / (k_B T)) - 1}
     - \sum_j \frac{\epsilon_j^{\text{Au}}}
-                 {\exp(\epsilon_j^{\text{Au}} / (k_B T)) - 1},$$</span>
+                 {\exp(\epsilon_j^{\text{Au}} / (k_B T)) - 1},
+\tag{65}$$</span>
 
-<span id="eq-066">$$\Delta F_{\text{vib}}(T)
+<span id="eq-66">$$\Delta F_{\text{vib}}(T)
   = \sum_k \left[
       \frac{\epsilon_k^{\text{HgAu}}}{2}
       + k_B T \ln\left(1 - e^{-\epsilon_k^{\text{HgAu}} / (k_B T)}\right)
@@ -638,9 +703,10 @@ Thus, explicitly,
     - \sum_j \left[
       \frac{\epsilon_j^{\text{Au}}}{2}
       + k_B T \ln\left(1 - e^{-\epsilon_j^{\text{Au}} / (k_B T)}\right)
-    \right],$$</span>
+    \right],
+\tag{66}$$</span>
 
-<span id="eq-067">$$\Delta S_{\text{vib}}(T)
+<span id="eq-67">$$\Delta S_{\text{vib}}(T)
   = k_B \sum_k \left[
       \frac{x_k^{\text{HgAu}}}{e^{x_k^{\text{HgAu}}} - 1}
       - \ln\left(1 - e^{-x_k^{\text{HgAu}}}\right)
@@ -648,7 +714,8 @@ Thus, explicitly,
     - k_B \sum_j \left[
       \frac{x_j^{\text{Au}}}{e^{x_j^{\text{Au}}} - 1}
       - \ln\left(1 - e^{-x_j^{\text{Au}}}\right)
-    \right].$$</span>
+    \right].
+\tag{67}$$</span>
 
 Only frequencies passing the positive-frequency selection are included in these thermodynamic sums.
 
@@ -660,17 +727,20 @@ The gas reference is one monatomic Hg atom. There are no molecular rotational or
 
 For $N$ identical monatomic particles in volume $V$, the translational partition function is
 
-<span id="eq-068">$$Q_{\text{trans}} = \frac{q_{\text{trans}}^{N}}{N!},$$</span>
+<span id="eq-68">$$Q_{\text{trans}} = \frac{q_{\text{trans}}^{N}}{N!},
+\tag{68}$$</span>
 
 where the one-particle partition function is
 
-<span id="eq-069">$$q_{\text{trans}}
+<span id="eq-69">$$q_{\text{trans}}
   = \frac{V}{\Lambda^{3}}
-  = V \left(\frac{2 \pi m k_B T}{h^{2}}\right)^{3/2},$$</span>
+  = V \left(\frac{2 \pi m k_B T}{h^{2}}\right)^{3/2},
+\tag{69}$$</span>
 
 and the thermal de Broglie wavelength is
 
-<span id="eq-070">$$\Lambda = \frac{h}{\sqrt{2 \pi m k_B T}}.$$</span>
+<span id="eq-70">$$\Lambda = \frac{h}{\sqrt{2 \pi m k_B T}}.
+\tag{70}$$</span>
 
 The Hg atomic mass used by the implementation is 200.59 u, converted to kg per atom where required.
 
@@ -678,33 +748,38 @@ The Hg atomic mass used by the implementation is 200.59 u, converted to kg per a
 
 Using Stirling's approximation for $N!$ gives the Sackur--Tetrode form
 
-<span id="eq-071">$$S_{\text{trans}}
+<span id="eq-71">$$S_{\text{trans}}
   = N k_B \left[
       \ln\left(\frac{V}{N \Lambda^{3}}\right) + \tfrac{5}{2}
-    \right].$$</span>
+    \right].
+\tag{71}$$</span>
 
 Per Hg atom,
 
-<span id="eq-072">$$S_{\text{Hg}}
+<span id="eq-72">$$S_{\text{Hg}}
   = k_B \left[
       \ln\left(\frac{V}{N \Lambda^{3}}\right) + \tfrac{5}{2}
-    \right].$$</span>
+    \right].
+\tag{72}$$</span>
 
 Using the ideal-gas equation
 
-<span id="eq-073">$$P V = N k_B T$$</span>
+<span id="eq-73">$$P V = N k_B T
+\tag{73}$$</span>
 
 gives
 
-<span id="eq-074">$$S_{\text{Hg}}(T,P)
+<span id="eq-74">$$S_{\text{Hg}}(T,P)
   = k_B \left[
       \ln\left(\frac{k_B T}{P \Lambda^{3}}\right) + \tfrac{5}{2}
-    \right].$$</span>
+    \right].
+\tag{74}$$</span>
 
 Relative to a reference pressure $P_0$,
 
-<span id="eq-075">$$S_{\text{Hg}}(T,P)
-  = S_{\text{Hg}}(T,P_0) - k_B \ln(P / P_0).$$</span>
+<span id="eq-75">$$S_{\text{Hg}}(T,P)
+  = S_{\text{Hg}}(T,P_0) - k_B \ln(P / P_0).
+\tag{75}$$</span>
 
 Thus lowering the gas pressure increases the gas entropy and makes adsorption less favorable through the chemical-potential term.
 
@@ -716,12 +791,14 @@ $$U_{\text{gas}} = \tfrac{3}{2} k_B T.$$
 
 The ideal-gas equation gives
 
-<span id="eq-076">$$P V = k_B T$$</span>
+<span id="eq-76">$$P V = k_B T
+\tag{76}$$</span>
 
 per atom, and hence
 
-<span id="eq-077">$$H_{\text{gas}} = U_{\text{gas}} + P V
-               = \tfrac{5}{2} k_B T.$$</span>
+<span id="eq-77">$$H_{\text{gas}} = U_{\text{gas}} + P V
+               = \tfrac{5}{2} k_B T.
+\tag{77}$$</span>
 
 The implementation calls this quantity `H_gas_thermal`.
 
@@ -729,21 +806,24 @@ The implementation calls this quantity `H_gas_thermal`.
 
 The thermal chemical-potential contribution is evaluated as
 
-<span id="eq-078">$$\mu_{\text{Hg,thermal}}(T,P)
-  = H_{\text{gas,thermal}}(T) - T S_{\text{Hg}}(T,P).$$</span>
+<span id="eq-78">$$\mu_{\text{Hg,thermal}}(T,P)
+  = H_{\text{gas,thermal}}(T) - T S_{\text{Hg}}(T,P).
+\tag{78}$$</span>
 
 Equivalently,
 
-<span id="eq-079">$$\mu_{\text{Hg,thermal}}
-  = -k_B T \ln(q_{\text{trans}} / N)$$</span>
+<span id="eq-79">$$\mu_{\text{Hg,thermal}}
+  = -k_B T \ln(q_{\text{trans}} / N)
+\tag{79}$$</span>
 
 for the corresponding classical ideal-gas reference, with the same pressure, temperature, and standard-state convention.
 
 The pressure dependence can be written as
 
-<span id="eq-080">$$\mu_{\text{Hg,thermal}}(T,P)
+<span id="eq-80">$$\mu_{\text{Hg,thermal}}(T,P)
   = \mu_{\text{Hg,thermal}}(T,P_0)
-    + k_B T \ln(P / P_0).$$</span>
+    + k_B T \ln(P / P_0).
+\tag{80}$$</span>
 
 Consequently, increasing Hg pressure makes the gas chemical potential less negative and adsorption thermodynamically more favorable.
 
@@ -751,21 +831,25 @@ Consequently, increasing Hg pressure makes the gas chemical potential less negat
 
 The project uses
 
-<span id="eq-081">$$1\,\text{bar} = 10^{5}\,\text{Pa}$$</span>
+<span id="eq-81">$$1\,\text{bar} = 10^{5}\,\text{Pa}
+\tag{81}$$</span>
 
 and
 
-<span id="eq-082">$$1\,\text{eV} = 1.602176634 \times 10^{-19}\,\text{J}.$$</span>
+<span id="eq-82">$$1\,\text{eV} = 1.602176634 \times 10^{-19}\,\text{J}.
+\tag{82}$$</span>
 
 For vibrational wavenumbers,
 
-<span id="eq-083">$$h c = 1.2398419843320026 \times 10^{-4}\,\text{eV}\,\text{cm},$$</span>
+<span id="eq-83">$$h c = 1.2398419843320026 \times 10^{-4}\,\text{eV}\,\text{cm},
+\tag{83}$$</span>
 
 so
 
-<span id="eq-084">$$\epsilon\,(\text{eV})
+<span id="eq-84">$$\epsilon\,(\text{eV})
   = 1.2398419843320026 \times 10^{-4} \,
-    \tilde{\nu}\,(\text{cm}^{-1}).$$</span>
+    \tilde{\nu}\,(\text{cm}^{-1}).
+\tag{84}$$</span>
 
 ## 9. Gas-phase Hg thermodynamics
 
@@ -775,11 +859,13 @@ The reference state for Hg is a monatomic ideal gas. The gas reference is not re
 
 For one mole of ideal gas,
 
-<span id="eq-085">$$P V = R T.$$</span>
+<span id="eq-85">$$P V = R T.
+\tag{85}$$</span>
 
 Per particle,
 
-<span id="eq-086">$$P V = k_B T.$$</span>
+<span id="eq-86">$$P V = k_B T.
+\tag{86}$$</span>
 
 Therefore the thermal enthalpy contribution of a monatomic ideal gas is
 
@@ -791,26 +877,31 @@ This term is subtracted from the adsorbed-state enthalpy correction because the 
 
 The translational partition function is
 
-<span id="eq-087">$$q_{\text{trans}}
-  = \left(\frac{2 \pi m k_B T}{h^{2}}\right)^{3/2} V.$$</span>
+<span id="eq-87">$$q_{\text{trans}}
+  = \left(\frac{2 \pi m k_B T}{h^{2}}\right)^{3/2} V.
+\tag{87}$$</span>
 
 The Sackur--Tetrode expression used by the custom backend can be written as
 
-<span id="eq-088">$$S_{\text{trans}}
-  = k_B \left[\ln(q_{\text{trans}} / N) + \tfrac{5}{2}\right].$$</span>
+<span id="eq-88">$$S_{\text{trans}}
+  = k_B \left[\ln(q_{\text{trans}} / N) + \tfrac{5}{2}\right].
+\tag{88}$$</span>
 
 Using the ideal-gas relation
 
-<span id="eq-089">$$V = \frac{N k_B T}{P}$$</span>
+<span id="eq-89">$$V = \frac{N k_B T}{P}
+\tag{89}$$</span>
 
 introduces the pressure dependence. Relative to a reference pressure $P_0$,
 
-<span id="eq-090">$$S(T,P) = S(T,P_0) - k_B \ln(P / P_0).$$</span>
+<span id="eq-90">$$S(T,P) = S(T,P_0) - k_B \ln(P / P_0).
+\tag{90}$$</span>
 
 The gas chemical potential contribution is represented thermodynamically as
 
-<span id="eq-091">$$\mu_{\text{Hg,thermal}}(T,P)
-  = H_{\text{gas,thermal}} - T S_{\text{gas}}(T,P).$$</span>
+<span id="eq-91">$$\mu_{\text{Hg,thermal}}(T,P)
+  = H_{\text{gas,thermal}} - T S_{\text{gas}}(T,P).
+\tag{91}$$</span>
 
 The pressure used by the project is entered in bar and converted internally to SI pressure where required.
 
@@ -822,15 +913,18 @@ The gas reference is a single monatomic Hg atom. Internal molecular rotational a
 
 For one classical particle in a volume $V$, the translational partition function is
 
-<span id="eq-092">$$q_{\text{trans}} = \frac{V}{\Lambda^{3}},$$</span>
+<span id="eq-92">$$q_{\text{trans}} = \frac{V}{\Lambda^{3}},
+\tag{92}$$</span>
 
 where the thermal de Broglie wavelength is
 
-<span id="eq-093">$$\Lambda = \frac{h}{\sqrt{2 \pi m k_B T}}.$$</span>
+<span id="eq-93">$$\Lambda = \frac{h}{\sqrt{2 \pi m k_B T}}.
+\tag{93}$$</span>
 
 For $N$ indistinguishable particles,
 
-<span id="eq-094">$$Q_{\text{trans}} = \frac{q_{\text{trans}}^{N}}{N!}.$$</span>
+<span id="eq-94">$$Q_{\text{trans}} = \frac{q_{\text{trans}}^{N}}{N!}.
+\tag{94}$$</span>
 
 Using Stirling's approximation for large $N$ and the thermodynamic limit gives the standard ideal-gas expressions used by the Sackur--Tetrode formulation.
 
@@ -855,30 +949,35 @@ The isolated-Hg electronic energy is already included separately through $\Delta
 
 For a monatomic ideal gas, the entropy per particle can be written
 
-<span id="eq-095">$$\frac{S}{N}
+<span id="eq-95">$$\frac{S}{N}
   = k_B \left[
       \ln\left(\frac{V}{N \Lambda^{3}}\right) + \tfrac{5}{2}
-    \right].$$</span>
+    \right].
+\tag{95}$$</span>
 
 Using the ideal-gas equation
 
-<span id="eq-096">$$P V = N k_B T$$</span>
+<span id="eq-96">$$P V = N k_B T
+\tag{96}$$</span>
 
 gives
 
-<span id="eq-097">$$\frac{V}{N} = \frac{k_B T}{P},$$</span>
+<span id="eq-97">$$\frac{V}{N} = \frac{k_B T}{P},
+\tag{97}$$</span>
 
 and hence
 
-<span id="eq-098">$$S_{\text{gas}}(T,P)
+<span id="eq-98">$$S_{\text{gas}}(T,P)
   = k_B \left[
       \ln\left(\frac{k_B T}{P \Lambda^{3}}\right) + \tfrac{5}{2}
-    \right].$$</span>
+    \right].
+\tag{98}$$</span>
 
 The pressure dependence at fixed $T$ is therefore
 
-<span id="eq-099">$$S_{\text{gas}}(T,P)
-  = S_{\text{gas}}(T,P_0) - k_B \ln(P / P_0),$$</span>
+<span id="eq-99">$$S_{\text{gas}}(T,P)
+  = S_{\text{gas}}(T,P_0) - k_B \ln(P / P_0),
+\tag{99}$$</span>
 
 where $P_0$ is the configured reference pressure.
 
@@ -888,28 +987,33 @@ This is the explicit pressure correction implemented by the custom backend. The 
 
 For an ideal gas, the chemical potential can be written as
 
-<span id="eq-100">$$\mu = -k_B T \ln(q_{\text{trans}} / N)$$</span>
+<span id="eq-100">$$\mu = -k_B T \ln(q_{\text{trans}} / N)
+\tag{100}$$</span>
 
 up to the standard indistinguishability formulation, or equivalently through thermodynamic identities. The implementation uses the enthalpy-entropy form for the thermal contribution:
 
 <span id="eq-101">$$\mu_{\text{Hg,thermal}}(T,P)
-  = H_{\text{gas,thermal}}(T) - T S_{\text{gas}}(T,P).$$</span>
+  = H_{\text{gas,thermal}}(T) - T S_{\text{gas}}(T,P).
+\tag{101}$$</span>
 
 Substitution of the monatomic ideal-gas enthalpy gives
 
 <span id="eq-102">$$\mu_{\text{Hg,thermal}}(T,P)
-  = \tfrac{5}{2} k_B T - T S_{\text{gas}}(T,P).$$</span>
+  = \tfrac{5}{2} k_B T - T S_{\text{gas}}(T,P).
+\tag{102}$$</span>
 
 Because
 
 <span id="eq-103">$$S_{\text{gas}}(T,P)
-  = S_{\text{gas}}(T,P_0) - k_B \ln(P / P_0),$$</span>
+  = S_{\text{gas}}(T,P_0) - k_B \ln(P / P_0),
+\tag{103}$$</span>
 
 one obtains the explicit pressure dependence
 
 <span id="eq-104">$$\mu_{\text{Hg,thermal}}(T,P)
   = \mu_{\text{Hg,thermal}}(T,P_0)
-    + k_B T \ln(P / P_0).$$</span>
+    + k_B T \ln(P / P_0).
+\tag{104}$$</span>
 
 Thus increasing the gas pressure increases the gas chemical potential. Since the adsorption free energy contains $-\mu_{\text{Hg,thermal}}$, increasing Hg pressure makes adsorption thermodynamically more favorable in this convention.
 
@@ -917,12 +1021,14 @@ Thus increasing the gas pressure increases the gas chemical potential. Since the
 
 The code distinguishes the actual Hg pressure $P$ from a reference pressure $P_0$. The standard-pressure gas entropy is
 
-<span id="eq-105">$$S_{\text{gas,standard}}(T) = S_{\text{gas}}(T,P_0),$$</span>
+<span id="eq-105">$$S_{\text{gas,standard}}(T) = S_{\text{gas}}(T,P_0),
+\tag{105}$$</span>
 
 and the actual-pressure entropy is
 
 <span id="eq-106">$$S_{\text{gas}}(T,P)
-  = S_{\text{gas,standard}}(T) - k_B \ln(P / P_0).$$</span>
+  = S_{\text{gas,standard}}(T) - k_B \ln(P / P_0).
+\tag{106}$$</span>
 
 The thermodynamic result therefore depends on both the configured pressure and the configured reference pressure. The latter fixes the zero of the gas chemical-potential convention; the former represents the physical gas condition being evaluated.
 
@@ -930,17 +1036,20 @@ The thermodynamic result therefore depends on both the configured pressure and t
 
 At fixed temperature, the ideal-gas contribution implies
 
-<span id="eq-107">$$\frac{d \mu_{\text{Hg,thermal}}}{d \ln P} = k_B T.$$</span>
+<span id="eq-107">$$\frac{d \mu_{\text{Hg,thermal}}}{d \ln P} = k_B T.
+\tag{107}$$</span>
 
 Therefore, for the adsorption free energy
 
 <span id="eq-108">$$\Delta G_{\text{ads}}
   = \Delta E_{\text{ads}} + \Delta F_{\text{vib}}
-    - \mu_{\text{Hg,thermal}},$$</span>
+    - \mu_{\text{Hg,thermal}},
+\tag{108}$$</span>
 
 one has
 
-<span id="eq-109">$$\frac{d \Delta G_{\text{ads}}}{d \ln P} = -k_B T.$$</span>
+<span id="eq-109">$$\frac{d \Delta G_{\text{ads}}}{d \ln P} = -k_B T.
+\tag{109}$$</span>
 
 This relation is a useful analytical check on pressure-dependent scans.
 
@@ -951,35 +1060,43 @@ This relation is a useful analytical check on pressure-dependent scans.
 The modeled adsorption reaction is
 
 <span id="eq-110">$$\text{Hg}(g) + \text{Au(surface)}
-  \rightarrow \text{Hg}^{*}/\text{Au(surface)},$$</span>
+  \rightarrow \text{Hg}^{*}/\text{Au(surface)},
+\tag{110}$$</span>
 
 where the asterisk denotes the adsorbed Hg atom in the selected optimized adsorption state. The electronic-energy contribution is
 
 <span id="eq-111">$$\Delta E_{\text{ads}}
-  = E_{\text{HgAu}} - E_{\text{Au}} - E_{\text{Hg}}.$$</span>
+  = E_{\text{HgAu}} - E_{\text{Au}} - E_{\text{Hg}}.
+\tag{111}$$</span>
 
 The thermodynamic adsorption free energy is constructed by adding the vibrational correction for the solid states and subtracting the gas-phase Hg chemical-potential contribution.
 
 The central state-function definitions are
 
-<span id="eq-112">$$H = U + P V,$$</span>
+<span id="eq-112">$$H = U + P V,
+\tag{112}$$</span>
 
-<span id="eq-113">$$F = U - T S,$$</span>
+<span id="eq-113">$$F = U - T S,
+\tag{113}$$</span>
 
-<span id="eq-114">$$G = H - T S = F + P V,$$</span>
+<span id="eq-114">$$G = H - T S = F + P V,
+\tag{114}$$</span>
 
 and for a gas-phase species the relevant reservoir quantity is its chemical potential $\mu$ (Gibbs free energy per particle in the ideal-gas limit).
 
 For the adsorption reaction, the code uses
 
 <span id="eq-115">$$\Delta H_{\text{ads}}
-  = H_{\text{HgAu}} - H_{\text{Au}} - H_{\text{Hg}}(g),$$</span>
+  = H_{\text{HgAu}} - H_{\text{Au}} - H_{\text{Hg}}(g),
+\tag{115}$$</span>
 
 <span id="eq-116">$$\Delta S_{\text{ads}}
-  = S_{\text{HgAu}} - S_{\text{Au}} - S_{\text{Hg}}(g),$$</span>
+  = S_{\text{HgAu}} - S_{\text{Au}} - S_{\text{Hg}}(g),
+\tag{116}$$</span>
 
 <span id="eq-117">$$\Delta G_{\text{ads}}
-  = \Delta H_{\text{ads}} - T \Delta S_{\text{ads}}.$$</span>
+  = \Delta H_{\text{ads}} - T \Delta S_{\text{ads}}.
+\tag{117}$$</span>
 
 Because the electronic energy is separated from the thermal gas contribution, these become the explicit equations given below.
 
@@ -991,7 +1108,8 @@ The surface and adsorbate electronic energies are supplied by MACE. The vibratio
   = \Delta E_{\text{ads}}
     + \Delta \text{ZPE}
     + \Delta U_{\text{vib,thermal}}(T)
-    - H_{\text{gas,thermal}}(T),$$</span>
+    - H_{\text{gas,thermal}}(T),
+\tag{118}$$</span>
 
 with
 
@@ -1002,19 +1120,22 @@ If ZPE is disabled,
 <span id="eq-119">$$\Delta H_{\text{ads}}(T)
   = \Delta E_{\text{ads}}
     + \Delta U_{\text{vib,thermal}}(T)
-    - H_{\text{gas,thermal}}(T).$$</span>
+    - H_{\text{gas,thermal}}(T).
+\tag{119}$$</span>
 
 ### 10.3 Explicit entropy equation
 
 The solid-state entropy change is
 
 <span id="eq-120">$$\Delta S_{\text{vib}}(T)
-  = S_{\text{vib,HgAu}}(T) - S_{\text{vib,Au}}(T).$$</span>
+  = S_{\text{vib,HgAu}}(T) - S_{\text{vib,Au}}(T).
+\tag{120}$$</span>
 
 The reaction entropy is
 
 <span id="eq-121">$$\Delta S_{\text{ads}}(T,P)
-  = \Delta S_{\text{vib}}(T) - S_{\text{gas}}(T,P).$$</span>
+  = \Delta S_{\text{vib}}(T) - S_{\text{gas}}(T,P).
+\tag{121}$$</span>
 
 With the ideal-gas expression,
 
@@ -1022,12 +1143,14 @@ With the ideal-gas expression,
   = \Delta S_{\text{vib}}(T)
     - k_B \left[
         \ln\left(\frac{k_B T}{P \Lambda^{3}}\right) + \tfrac{5}{2}
-      \right].$$</span>
+      \right].
+\tag{122}$$</span>
 
 Equivalently, relative to $P_0$,
 
 <span id="eq-123">$$\Delta S_{\text{ads}}(T,P)
-  = \Delta S_{\text{ads}}(T,P_0) + k_B \ln(P / P_0).$$</span>
+  = \Delta S_{\text{ads}}(T,P_0) + k_B \ln(P / P_0).
+\tag{123}$$</span>
 
 ### 10.4 Explicit Gibbs-energy equation
 
@@ -1039,24 +1162,28 @@ Combining the preceding expressions gives
     + \Delta U_{\text{vib,thermal}}(T)
     - H_{\text{gas,thermal}}(T)
     - T \Delta S_{\text{vib}}(T)
-    + T S_{\text{gas}}(T,P).$$</span>
+    + T S_{\text{gas}}(T,P).
+\tag{124}$$</span>
 
 Using
 
 <span id="eq-125">$$\Delta F_{\text{vib}}
   = \Delta \text{ZPE} + \Delta U_{\text{vib,thermal}}
-    - T \Delta S_{\text{vib}}$$</span>
+    - T \Delta S_{\text{vib}}
+\tag{125}$$</span>
 
 and
 
 <span id="eq-126">$$\mu_{\text{Hg,thermal}}
-  = H_{\text{gas,thermal}} - T S_{\text{gas}},$$</span>
+  = H_{\text{gas,thermal}} - T S_{\text{gas}},
+\tag{126}$$</span>
 
 this reduces exactly to
 
 <span id="eq-127">$$\Delta G_{\text{ads}}(T,P)
   = \Delta E_{\text{ads}} + \Delta F_{\text{vib}}(T)
-    - \mu_{\text{Hg,thermal}}(T,P).$$</span>
+    - \mu_{\text{Hg,thermal}}(T,P).
+\tag{127}$$</span>
 
 This is the compact expression used for the internal cross-check.
 
@@ -1069,7 +1196,8 @@ It is useful to display the free energy as
     + \left[\Delta \text{ZPE}
       + \Delta U_{\text{vib,thermal}}
       - T \Delta S_{\text{vib}}\right]
-    - \left[H_{\text{gas,thermal}} - T S_{\text{gas}}\right].$$</span>
+    - \left[H_{\text{gas,thermal}} - T S_{\text{gas}}\right].
+\tag{128}$$</span>
 
 The three physically distinct contributions are therefore:
 
@@ -1084,12 +1212,14 @@ No gas-phase Hg electronic energy is added a second time: $E_{\text{Hg}}$ is alr
 At fixed $T$, the pressure dependence follows directly from the ideal-gas chemical potential:
 
 <span id="eq-129">$$\mu_{\text{Hg}}(T,P)
-  = \mu_{\text{Hg}}(T,P_0) + k_B T \ln(P / P_0).$$</span>
+  = \mu_{\text{Hg}}(T,P_0) + k_B T \ln(P / P_0).
+\tag{129}$$</span>
 
 Therefore
 
 <span id="eq-130">$$\Delta G_{\text{ads}}(T,P)
-  = \Delta G_{\text{ads}}(T,P_0) - k_B T \ln(P / P_0).$$</span>
+  = \Delta G_{\text{ads}}(T,P_0) - k_B T \ln(P / P_0).
+\tag{130}$$</span>
 
 This is the analytical pressure dependence of the present model.
 
@@ -1099,23 +1229,27 @@ The code's preferred compact route is
 
 <span id="eq-131">$$\Delta G_{\text{ads}}
   = \Delta E_{\text{ads}} + \Delta F_{\text{vib}}
-    - \mu_{\text{Hg,thermal}}.$$</span>
+    - \mu_{\text{Hg,thermal}}.
+\tag{131}$$</span>
 
 The expanded route is
 
 <span id="eq-132">$$\Delta G_{\text{ads}}
-  = \Delta H_{\text{ads}} - T \Delta S_{\text{ads}}.$$</span>
+  = \Delta H_{\text{ads}} - T \Delta S_{\text{ads}}.
+\tag{132}$$</span>
 
 The implementation evaluates both and raises an error if they disagree beyond the configured numerical tolerance. Agreement is expected because
 
 <span id="eq-133">$$\Delta F_{\text{vib}}
   = \Delta \text{ZPE} + \Delta U_{\text{vib,thermal}}
-    - T \Delta S_{\text{vib}}$$</span>
+    - T \Delta S_{\text{vib}}
+\tag{133}$$</span>
 
 and
 
 <span id="eq-134">$$\mu_{\text{Hg,thermal}}
-  = H_{\text{gas,thermal}} - T S_{\text{gas}}.$$</span>
+  = H_{\text{gas,thermal}} - T S_{\text{gas}}.
+\tag{134}$$</span>
 
 ### 10.8 ZPE switch semantics
 
@@ -1123,17 +1257,20 @@ When `include_zpe = true`:
 
 <span id="eq-135">$$\Delta H_{\text{ads}}
   = \Delta E_{\text{ads}} + \Delta \text{ZPE}
-    + \Delta U_{\text{vib,thermal}} - H_{\text{gas}},$$</span>
+    + \Delta U_{\text{vib,thermal}} - H_{\text{gas}},
+\tag{135}$$</span>
 
 <span id="eq-136">$$\Delta F_{\text{vib}}
   = \Delta \text{ZPE} + \Delta U_{\text{vib,thermal}}
-    - T \Delta S_{\text{vib}}.$$</span>
+    - T \Delta S_{\text{vib}}.
+\tag{136}$$</span>
 
 When `include_zpe = false`:
 
 <span id="eq-137">$$\Delta H_{\text{ads}}
   = \Delta E_{\text{ads}} + \Delta U_{\text{vib,thermal}}
-    - H_{\text{gas}},$$</span>
+    - H_{\text{gas}},
+\tag{137}$$</span>
 
 and the vibrational free-energy correction is correspondingly evaluated with the ZPE term removed. Entropy is unchanged because ZPE is temperature independent.
 
@@ -1143,23 +1280,27 @@ The implemented adsorption enthalpy is
   = \Delta E_{\text{ads}}
     + \Delta \text{ZPE}
     + \Delta U_{\text{vib,thermal}}(T)
-    - H_{\text{gas,thermal}}(T).$$</span>
+    - H_{\text{gas,thermal}}(T).
+\tag{138}$$</span>
 
 The adsorption entropy is
 
 <span id="eq-139">$$\Delta S_{\text{ads}}(T,P)
-  = \Delta S_{\text{vib}}(T) - S_{\text{gas}}(T,P).$$</span>
+  = \Delta S_{\text{vib}}(T) - S_{\text{gas}}(T,P).
+\tag{139}$$</span>
 
 The adsorption Gibbs free energy is then
 
 <span id="eq-140">$$\Delta G_{\text{ads}}(T,P)
-  = \Delta H_{\text{ads}}(T,P) - T \Delta S_{\text{ads}}(T,P).$$</span>
+  = \Delta H_{\text{ads}}(T,P) - T \Delta S_{\text{ads}}(T,P).
+\tag{140}$$</span>
 
 An algebraically equivalent and useful implementation check is
 
 <span id="eq-141">$$\Delta G_{\text{ads}}
   = \Delta E_{\text{ads}} + \Delta F_{\text{vib}}
-    - \mu_{\text{Hg,thermal}}.$$</span>
+    - \mu_{\text{Hg,thermal}}.
+\tag{141}$$</span>
 
 The program evaluates both routes and checks that they agree within numerical tolerance. This provides an internal thermodynamic-consistency test.
 
@@ -1286,7 +1427,8 @@ The workflow does not solve this equation symbolically. It evaluates the thermod
 
 Given a bracket $[T_{\text{low}},\, T_{\text{high}}]$ satisfying
 
-<span id="eq-142">$$f(T_{\text{low}}) \, f(T_{\text{high}}) < 0,$$</span>
+<span id="eq-142">$$f(T_{\text{low}}) \, f(T_{\text{high}}) < 0,
+\tag{142}$$</span>
 
 the midpoint is
 
@@ -1305,12 +1447,14 @@ For a bracket containing a single continuous crossing, bisection is guaranteed t
 Because
 
 <span id="eq-143">$$\Delta G_{\text{ads}}(T,P)
-  = \Delta G_{\text{ads}}(T,P_0) - k_B T \ln(P / P_0),$$</span>
+  = \Delta G_{\text{ads}}(T,P_0) - k_B T \ln(P / P_0),
+\tag{143}$$</span>
 
 the crossover condition can also be written
 
 <span id="eq-144">$$\Delta G_{\text{ads}}(T_{\text{cross}},P_0)
-  = k_B T_{\text{cross}} \ln(P / P_0).$$</span>
+  = k_B T_{\text{cross}} \ln(P / P_0).
+\tag{144}$$</span>
 
 This relation does not by itself give a closed-form $T_{\text{cross}}$ because the vibrational terms are temperature dependent, but it provides a useful check on pressure-dependent crossover calculations.
 
