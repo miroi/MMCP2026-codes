@@ -47,20 +47,20 @@ Here:
 | Symbol | Meaning | Value/unit convention in the implementation |
 |---|---|---|
 | $T_a$ | deposition temperature | K |
-| $\Delta H_{\mathrm{des}}$ | molar desorption enthalpy | J mol$^{-1}$ |
-| $\Delta S_{\mathrm{des}}$ | molar desorption entropy | J mol$^{-1}$ K$^{-1}$ |
-| $R$ | gas constant | J mol$^{-1}$ K$^{-1}$ |
-| $s_0$ | standard surface area | m² |
-| $\nu_B$ | characteristic frequency | s$^{-1}$ |
-| $M$ | molar mass | **entered numerically in g mol$^{-1}$** in Eq. (1), as required by the project implementation |
-| $Q$ | carrier-gas volumetric flow | m³ s$^{-1}$ after conversion |
-| $g$ | temperature gradient | K m$^{-1}$ |
-| $s$ | column cross-sectional area | m² |
+| $\Delta H_{\mathrm{des}}$ | molar desorption enthalpy | $\mathrm{J\,mol^{-1}}$ |
+| $\Delta S_{\mathrm{des}}$ | molar desorption entropy | $\mathrm{J\,mol^{-1}\,K^{-1}}$ |
+| $R$ | gas constant | $\mathrm{J\,mol^{-1}\,K^{-1}}$ |
+| $s_0$ | standard surface area | $\mathrm{m^2}$ |
+| $\nu_B$ | characteristic frequency | $\mathrm{s^{-1}}$ |
+| $M$ | molar mass | **entered numerically in $\mathrm{g\,mol^{-1}}$** in Eq. (1), as required by the project implementation |
+| $Q$ | carrier-gas volumetric flow | $\mathrm{m^3\,s^{-1}}$ after conversion |
+| $g$ | temperature gradient | $\mathrm{K\,m^{-1}}$ |
+| $s$ | column cross-sectional area | $\mathrm{m^2}$ |
 
 ### Important unit convention for $M$
 
 The compact equation in the source code explicitly uses the numerical molar
-mass in **g mol$^{-1}$**. Thus the value
+mass in **$\mathrm{g\,mol^{-1}}$**. Thus the value
 
 ```math
 M=200.59\ {\rm g\,mol^{-1}}
@@ -69,7 +69,7 @@ M=200.59\ {\rm g\,mol^{-1}}
 is inserted into the square-root factor as `200.59`, not as `0.20059`.
 
 This is a convention of the implemented compact equation. Converting $M$ to
-kg mol$^{-1}$ inside Eq. (1) without simultaneously re-deriving the
+k$\mathrm{g\,mol^{-1}}$ inside Eq. (1) without simultaneously re-deriving the
 prefactor would change the numerical result.
 
 ---
@@ -161,7 +161,7 @@ Q_{\mathrm{sccm}}\frac{10^{-6}}{60}.
 
 The three supplied calculations use:
 
-| $Q$ (sccm) | $Q$ (m³ s$^{-1}$) |
+| $Q$ (sccm) | $Q$ ($\mathrm{m^3\,s^{-1}}$) |
 |---:|---:|
 | 0.002 | $3.333333333\times10^{-11}$ |
 | 0.005 | $8.333333333\times10^{-11}$ |
@@ -202,7 +202,7 @@ The standard surface area is
 s_0=1.000000\times10^{-4}\ {\rm m^2},
 ```
 
-corresponding to the 1 cm² value stated in the input file.
+corresponding to the 1 c$\mathrm{m^2}$ value stated in the input file.
 
 ---
 
@@ -332,7 +332,7 @@ underlying thermodynamic model.
 
 ### 8.1 Summary of the supplied calculations
 
-| Flow $Q$ (sccm) | Flow $Q$ (m³/s) | $T_a$ (K) | $T_a$ (°C) | Mobile $\Delta S_{\rm ads}(T_a)$ (J mol$^{-1}$ K$^{-1}$) |
+| Flow $Q$ (sccm) | Flow $Q$ ($\mathrm{m^3\,s^{-1}}$) | $T_a$ (K) | $T_a$ (°C) | Mobile $\Delta S_{\rm ads}(T_a)$ ($\mathrm{J\,mol^{-1}\,K^{-1}}$) |
 |---:|---:|---:|---:|---:|
 | 0.002 | $3.333333333\times10^{-11}$ | **444.043288** | **170.893288** | -149.604914 |
 | 0.005 | $8.333333333\times10^{-11}$ | **410.761265** | **137.611265** | -149.928803 |
@@ -458,12 +458,12 @@ is the mass of one Hg particle and the default standard length is
 L_0=0.01\ {\rm m}.
 ```
 
-The implementation converts the input molar mass from g mol$^{-1}$ to kg per
+The implementation converts the input molar mass from $\mathrm{g\,mol^{-1}}$ to kg per
 particle before evaluating Eq. (13).
 
 For the three deposition temperatures, the diagnostic gives:
 
-| $Q$ (sccm) | $T_a$ (K) | $\Delta S_{\mathrm{mobile}}(T_a)$ (J mol$^{-1}$ K$^{-1}$) |
+| $Q$ (sccm) | $T_a$ (K) | $\Delta S_{\mathrm{mobile}}(T_a)$ ($\mathrm{J\,mol^{-1}\,K^{-1}}$) |
 |---:|---:|---:|
 | 0.002 | 444.043288 | -149.604914 |
 | 0.005 | 410.761265 | -149.928803 |
@@ -483,21 +483,21 @@ The following table collects the parameters actually used by
 
 | Parameter | Active value | Unit | Role |
 |---|---:|---|---|
-| $M$ | 200.59 | g mol$^{-1}$ | Hg molar mass |
-| $\nu_B$ | $5.8202097368\times10^{11}$ | s$^{-1}$ | characteristic Hg frequency |
-| $s_0$ | $1.0\times10^{-4}$ | m² | standard surface area |
-| $Q$ | 0.002 / 0.005 / 0.010 | sccm | carrier-gas flow |
-| $g$ | 50.0 | K m$^{-1}$ | temperature gradient |
+| $M$ | 200.59 | $\mathrm{g\,mol^{-1}}$ | Hg molar mass |
+| $\nu_B$ | $5.8202097368\times10^{11}$ | $\mathrm{s^{-1}}$ | characteristic Hg frequency |
+| $s_0$ | $1.0\times10^{-4}$ | $\mathrm{m^2}$ | standard surface area |
+| $Q$ | 0.002 / 0.005 / 0.010 | $\mathrm{sccm}$ | carrier-gas flow |
+| $g$ | 50.0 | $\mathrm{K\,m^{-1}}$ | temperature gradient |
 | $d$ | 0.020 | m | column diameter |
-| $s$ | $3.141592654\times10^{-4}$ | m² | calculated column area |
-| $\Delta H_{\mathrm{ads}}$ | -47.0765871755 | kJ mol$^{-1}$ | adsorption enthalpy |
-| $\Delta S_{\mathrm{ads}}$ | -104.7019236234 | J mol$^{-1}$ K$^{-1}$ | adsorption entropy |
-| $R$ | 8.31446261815324 | J mol$^{-1}$ K$^{-1}$ | gas constant |
+| $s$ | $3.141592654\times10^{-4}$ | $\mathrm{m^2}$ | calculated column area |
+| $\Delta H_{\mathrm{ads}}$ | -47.0765871755 | $\mathrm{kJ\,mol^{-1}}$ | adsorption enthalpy |
+| $\Delta S_{\mathrm{ads}}$ | -104.7019236234 | $\mathrm{J\,mol^{-1}\,K^{-1}}$ | adsorption entropy |
+| $R$ | 8.31446261815324 | $\mathrm{J\,mol^{-1}\,K^{-1}}$ | gas constant |
 | $T_{\min}$ | 50 | K | root-search lower bound |
 | $T_{\max}$ | 1000 | K | root-search upper bound |
 | $L_0$ | 0.01 | m | mobile-entropy diagnostic standard length |
-| $N_A$ | $6.02214076\times10^{23}$ | mol$^{-1}$ | Avogadro constant |
-| $k_B$ | $1.380649\times10^{-23}$ | J K$^{-1}$ | Boltzmann constant |
+| $N_A$ | $6.02214076\times10^{23}$ | $\mathrm{mol^{-1}}$ | Avogadro constant |
+| $k_B$ | $1.380649\times10^{-23}$ | $\mathrm{J\,K^{-1}}$ | Boltzmann constant |
 
 ### Parameters retained only for traceability
 
@@ -505,8 +505,8 @@ The input file also contains:
 
 | Parameter | Value | Status in `solve_for_Ta.py` |
 |---|---:|---|
-| `hg_frequency_1_cm1` | 19.312 cm$^{-1}$ | traceability only |
-| `hg_frequency_2_cm1` | 19.5168 cm$^{-1}$ | traceability only |
+| `hg_frequency_1_cm1` | 19.312 $\mathrm{cm^{-1}}$ | traceability only |
+| `hg_frequency_2_cm1` | 19.5168 $\mathrm{cm^{-1}}$ | traceability only |
 | `T_cross_K` | 450.921106 K | comparison value; **unused by solver** |
 
 ---
@@ -536,7 +536,7 @@ The supplied computational specification identifies:
 | MACE version | 0.3.16 |
 | Vibrational method | finite-displacement Hessian |
 | Default displacement | 0.005 Å |
-| Frequency cutoff | 1 cm$^{-1}$ |
+| Frequency cutoff | 1 $\mathrm{cm^{-1}}$ |
 | Representative thermodynamic pressure | 1 bar in the compact-equation input |
 | Thermochemical reference temperature | 298.15 K |
 
@@ -631,7 +631,7 @@ uncertainty in:
    The 0.002 and 0.005 sccm cases are represented by the supplied output
    logs, not by the currently uncommented `Q_sccm` line.
 
-3. **The compact equation uses $M$ in g mol$^{-1}$.**  
+3. **The compact equation uses $M$ in $\mathrm{g\,mol^{-1}}$.**  
    This is intentional and source-defined.
 
 4. **Adsorption/desorption signs are explicitly reversed in the solver.**  
