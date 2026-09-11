@@ -69,7 +69,7 @@ M=200.59\ {\rm g\,mol^{-1}}
 is inserted into the square-root factor as `200.59`, not as `0.20059`.
 
 This is a convention of the implemented compact equation. Converting $M$ to
-k$\mathrm{g\,mol^{-1}}$ inside Eq. (1) without simultaneously re-deriving the
+$\mathrm{kg\,mol^{-1}}$ inside Eq. (1) without simultaneously re-deriving the
 prefactor would change the numerical result.
 
 ---
@@ -161,7 +161,7 @@ Q_{\mathrm{sccm}}\frac{10^{-6}}{60}.
 
 The three supplied calculations use:
 
-| $Q$ (sccm) | $Q$ ($\mathrm{m^3\,s^{-1}}$) |
+| $Q$ ($\mathrm{sccm}$) | $Q$ ($\mathrm{m^3\,s^{-1}}$) |
 |---:|---:|
 | 0.002 | $3.333333333\times10^{-11}$ |
 | 0.005 | $8.333333333\times10^{-11}$ |
@@ -202,7 +202,7 @@ The standard surface area is
 s_0=1.000000\times10^{-4}\ {\rm m^2},
 ```
 
-corresponding to the 1 c$\mathrm{m^2}$ value stated in the input file.
+corresponding to the 1 $\mathrm{cm^2}$ value stated in the input file.
 
 ---
 
@@ -274,7 +274,7 @@ f(T_a)=0.
 
 For the three supplied flow rates, the resulting prefactors are:
 
-| $Q$ (sccm) | $A$ |
+| $Q$ ($\mathrm{sccm}$) | $A$ |
 |---:|---:|
 | 0.002 | $1.096180534\times10^4$ |
 | 0.005 | $2.740451334\times10^4$ |
@@ -316,7 +316,7 @@ program raises a `RuntimeError`.
 
 The reported residuals in the supplied logs are effectively zero:
 
-| $Q$ (sccm) | $T_a$ (K) | $f(T_a)$ |
+| $Q$ ($\mathrm{sccm}$) | $T_a$ ($\mathrm{K}$) | $f(T_a)$ |
 |---:|---:|---:|
 | 0.002 | 444.043288 | $1.126\times10^{-12}$ |
 | 0.005 | 410.761265 | $0.000\times10^{0}$ |
@@ -332,7 +332,7 @@ underlying thermodynamic model.
 
 ### 8.1 Summary of the supplied calculations
 
-| Flow $Q$ (sccm) | Flow $Q$ ($\mathrm{m^3\,s^{-1}}$) | $T_a$ (K) | $T_a$ (°C) | Mobile $\Delta S_{\rm ads}(T_a)$ ($\mathrm{J\,mol^{-1}\,K^{-1}}$) |
+| Flow $Q$ ($\mathrm{sccm}$) | Flow $Q$ ($\mathrm{m^3\,s^{-1}}$) | $T_a$ ($\mathrm{K}$) | $T_a$ ($\mathrm{^\circ C}$) | Mobile $\Delta S_{\rm ads}(T_a)$ ($\mathrm{J\,mol^{-1}\,K^{-1}}$) |
 |---:|---:|---:|---:|---:|
 | 0.002 | $3.333333333\times10^{-11}$ | **444.043288** | **170.893288** | -149.604914 |
 | 0.005 | $8.333333333\times10^{-11}$ | **410.761265** | **137.611265** | -149.928803 |
@@ -360,7 +360,7 @@ from 0.002 to 0.010 sccm, lowers the predicted deposition temperature by
 
 ---
 
-## 9. Constant-$H,S$ Gibbs-energy reference temperature
+## 9. Constant $H$ and $S$ Gibbs-energy reference temperature
 
 The solver additionally reports
 
@@ -383,7 +383,7 @@ T_{\mathrm{H/S}}
 ```
 
 This quantity is a useful algebraic reference for a simplified
-constant-$\Delta H$, constant-$\Delta S$ relation
+constant $\Delta H$ and constant $\Delta S$ relation
 
 ```math
 \Delta G_{\mathrm{ads}}(T)
@@ -397,7 +397,7 @@ but it is **not** the same quantity as the deposition temperature obtained
 from Eq. (1). The latter also contains the thermochromatographic transport
 and frequency/geometry factor.
 
-The value $449.624855$ K is identical in all three supplied solver logs
+The value $449.624855\ \mathrm{K}$ is identical in all three supplied solver logs
 because it depends only on the fixed $\Delta H_{\mathrm{ads}}$ and
 $\Delta S_{\mathrm{ads}}$, not on $Q$.
 
@@ -424,7 +424,7 @@ kept separate:
 | Solver $T_a$, at 0.002 sccm | 444.043288 K | compact thermochromatographic deposition root |
 | Solver $T_a$, at 0.005 sccm | 410.761265 K | compact thermochromatographic deposition root |
 | Solver $T_a$, at 0.010 sccm | 388.890165 K | compact thermochromatographic deposition root |
-| Constant-$H,S$ $T_{\mathrm{H/S}}$ | 449.624855 K | algebraic reference |
+| Constant $H$ and $S$ $T_{\mathrm{H/S}}$ | 449.624855 $\mathrm{K}$ | algebraic reference |
 | Input `T_cross_K` | 450.921106 K | external/comparison value; unused by `solve_for_Ta.py` |
 
 ---
@@ -463,7 +463,7 @@ particle before evaluating Eq. (13).
 
 For the three deposition temperatures, the diagnostic gives:
 
-| $Q$ (sccm) | $T_a$ (K) | $\Delta S_{\mathrm{mobile}}(T_a)$ ($\mathrm{J\,mol^{-1}\,K^{-1}}$) |
+| $Q$ ($\mathrm{sccm}$) | $T_a$ ($\mathrm{K}$) | $\Delta S_{\mathrm{mobile}}(T_a)$ ($\mathrm{J\,mol^{-1}\,K^{-1}}$) |
 |---:|---:|---:|
 | 0.002 | 444.043288 | -149.604914 |
 | 0.005 | 410.761265 | -149.928803 |
@@ -488,14 +488,14 @@ The following table collects the parameters actually used by
 | $s_0$ | $1.0\times10^{-4}$ | $\mathrm{m^2}$ | standard surface area |
 | $Q$ | 0.002 / 0.005 / 0.010 | $\mathrm{sccm}$ | carrier-gas flow |
 | $g$ | 50.0 | $\mathrm{K\,m^{-1}}$ | temperature gradient |
-| $d$ | 0.020 | m | column diameter |
+| $d$ | 0.020 | $\mathrm{m}$ | column diameter |
 | $s$ | $3.141592654\times10^{-4}$ | $\mathrm{m^2}$ | calculated column area |
 | $\Delta H_{\mathrm{ads}}$ | -47.0765871755 | $\mathrm{kJ\,mol^{-1}}$ | adsorption enthalpy |
 | $\Delta S_{\mathrm{ads}}$ | -104.7019236234 | $\mathrm{J\,mol^{-1}\,K^{-1}}$ | adsorption entropy |
 | $R$ | 8.31446261815324 | $\mathrm{J\,mol^{-1}\,K^{-1}}$ | gas constant |
-| $T_{\min}$ | 50 | K | root-search lower bound |
-| $T_{\max}$ | 1000 | K | root-search upper bound |
-| $L_0$ | 0.01 | m | mobile-entropy diagnostic standard length |
+| $T_{\min}$ | 50 | $\mathrm{K}$ | root-search lower bound |
+| $T_{\max}$ | 1000 | $\mathrm{K}$ | root-search upper bound |
+| $L_0$ | 0.01 | $\mathrm{m}$ | mobile-entropy diagnostic standard length |
 | $N_A$ | $6.02214076\times10^{23}$ | $\mathrm{mol^{-1}}$ | Avogadro constant |
 | $k_B$ | $1.380649\times10^{-23}$ | $\mathrm{J\,K^{-1}}$ | Boltzmann constant |
 
@@ -505,8 +505,8 @@ The input file also contains:
 
 | Parameter | Value | Status in `solve_for_Ta.py` |
 |---|---:|---|
-| `hg_frequency_1_cm1` | 19.312 $\mathrm{cm^{-1}}$ | traceability only |
-| `hg_frequency_2_cm1` | 19.5168 $\mathrm{cm^{-1}}$ | traceability only |
+| `hg_frequency_1_cm1` | $19.312\ \mathrm{cm^{-1}}$ | traceability only |
+| `hg_frequency_2_cm1` | $19.5168\ \mathrm{cm^{-1}}$ | traceability only |
 | `T_cross_K` | 450.921106 K | comparison value; **unused by solver** |
 
 ---
@@ -536,7 +536,7 @@ The supplied computational specification identifies:
 | MACE version | 0.3.16 |
 | Vibrational method | finite-displacement Hessian |
 | Default displacement | 0.005 Å |
-| Frequency cutoff | 1 $\mathrm{cm^{-1}}$ |
+| Frequency cutoff | $1\ \mathrm{cm^{-1}}$ |
 | Representative thermodynamic pressure | 1 bar in the compact-equation input |
 | Thermochemical reference temperature | 298.15 K |
 
@@ -575,7 +575,7 @@ environment.
 
 The output explicitly reports the input file used, thermodynamic parameters,
 transport parameters, calculated column area, compact prefactor, deposition
-temperature, root residual, constant-$H,S$ reference temperature, mobile
+temperature, root residual, constant $H$ and $S$ reference temperature, mobile
 entropy diagnostic, and flow-conversion check.
 
 ---
@@ -624,7 +624,7 @@ uncertainty in:
 ## 16. Important implementation notes
 
 1. **Flow conversion is corrected.**  
-   The program uses $1\ {\rm sccm}=10^{-6}/60\ {\rm m^3\,s^{-1}}$. The
+   The program uses $1\ \mathrm{sccm}=10^{-6}/60\ \mathrm{m^3\,s^{-1}}$. The
    historical `2e-9 m³/s` value corresponds to 0.12 sccm.
 
 2. **The active flow in `input_params.txt` is 0.010 sccm.**  
@@ -741,6 +741,6 @@ at 0.002 sccm to
 at 0.010 sccm.
 
 The README deliberately distinguishes this transport-model deposition
-temperature from the constant-$H,S$ Gibbs-energy reference temperature
-($449.624855$ K) and from the separate `T_cross_K` value stored in the
-input file ($450.921106$ K).
+temperature from the constant $H$ and $S$ Gibbs-energy reference temperature
+($449.624855\ \mathrm{K}$) and from the separate `T_cross_K` value stored in the
+input file ($450.921106\ \mathrm{K}$).
