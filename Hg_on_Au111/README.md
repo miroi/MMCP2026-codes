@@ -2385,14 +2385,6 @@ For the representative custom-backend calculation at 1e-5 bar, the documented sc
 
 The corresponding thermodynamic scan is written to `hg_au111_thermodynamics_scan.csv`.
 
-Publication-oriented plots documented by the supplied supplementary material are:
-
-- `DeltaH_ads_vs_T.png`
-- `DeltaS_ads_vs_T.png`
-- `DeltaG_ads_vs_T.png`
-
-These figures visualize the temperature dependence of adsorption enthalpy, entropy, and Gibbs free energy.
-
 ### 19.2 Physical interpretation of the temperature dependence
 
 The electronic interaction is favorable because $\Delta E_{\text{ads}} < 0$.
